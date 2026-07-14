@@ -2,6 +2,7 @@ import json
 import re
 from pathlib import Path
 from langchain_core.tools import tool
+from tools.currency import to_inr, INR_PER_USD
 
 _FLIGHTS_PATH = Path(__file__).parent.parent / "data" / "mock_flights.json"
 _HOTELS_PATH = Path(__file__).parent.parent / "data" / "mock_hotels.json"
@@ -124,14 +125,14 @@ def search_flights(
             "stops": f.get("stops", 0),
             "stop_cities": f.get("stop_cities", []),
             "cabin_class": cabin_class,
-            "price_per_person_usd": per_person,
-            "total_price_usd": total,
+            "price_per_person_inr": to_inr(per_person),
+            "total_price_inr": to_inr(total),
             "baggage_kg": f.get("baggage_kg", 23),
             "rating": f.get("rating", 4.0),
             "season_note": f"Prices adjusted for {season} travel",
         })
 
-    results.sort(key=lambda x: x["price_per_person_usd"])
+    results.sort(key=lambda x: x["price_per_person_inr"])
     return json.dumps(results)
 
 
@@ -187,7 +188,8 @@ def search_hotels(
             continue
         filtered.append({
             **h,
-            "total_price_usd": price * nights,
+            "price_per_night_inr": to_inr(price),
+            "total_price_inr": to_inr(price * nights),
             "nights": nights,
             "guests": num_guests,
         })

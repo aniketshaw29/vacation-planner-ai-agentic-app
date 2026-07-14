@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from langchain_core.tools import tool
+from tools.currency import to_inr, INR_PER_USD
 
 _FOOD_PATH = Path(__file__).parent.parent / "data" / "mock_food.json"
 _DEST_PATH = Path(__file__).parent.parent / "data" / "mock_destinations.json"
@@ -106,22 +107,21 @@ def calculate_budget_breakdown(
     trip_duration_days: int,
     num_people: int,
     accommodation_cost_usd: float,
-    flight_cost_usd: float,
+    transport_cost_usd: float,
     travel_style: str = "moderate",
     currency: str = "INR",
 ) -> str:
     """
     Calculate a complete itemized budget breakdown for a trip.
 
-    Returns JSON with: total_usd, per_person_usd, daily_spending_budget_usd,
-    and itemized breakdown by category: flights, accommodation, food, local_transport,
+    Returns JSON with total, per_person, and itemized breakdown in INR by default.
+    Categories: transport (flights/bus/train), accommodation, food, local_transport,
     activities, shopping, emergency_fund (10%). Also returns money_saving_tips.
-    When currency is INR, all monetary values are also returned in INR.
 
     travel_style: budget | moderate | comfortable | luxury
-    accommodation_cost_usd: total accommodation cost for entire trip
-    flight_cost_usd: total flight cost for all people (round-trip)
-    currency: INR or USD — determines whether INR-converted values are included in output
+    accommodation_cost_usd: total accommodation cost for entire trip (all people)
+    transport_cost_usd: total intercity transport cost (flights OR bus OR train — whatever mode used)
+    currency: INR or USD
     """
     INR_PER_USD = 84
 
@@ -174,7 +174,7 @@ def calculate_budget_breakdown(
     activities_total = round(activities_daily * trip_duration_days * num_people)
     shopping_total = round(shopping * num_people)
 
-    subtotal = flight_cost_usd + accommodation_cost_usd + food_total + transport_total + activities_total + shopping_total
+    subtotal = transport_cost_usd + accommodation_cost_usd + food_total + transport_total + activities_total + shopping_total
     emergency = round(subtotal * 0.10)
     total = subtotal + emergency
 
@@ -210,7 +210,7 @@ def calculate_budget_breakdown(
     }
 
     breakdown = {
-        "flights": round(flight_cost_usd),
+        "intercity_transport": round(transport_cost_usd),
         "accommodation": round(accommodation_cost_usd),
         "food": food_total,
         "local_transport": transport_total,
@@ -225,28 +225,11 @@ def calculate_budget_breakdown(
         "trip_duration_days": trip_duration_days,
         "num_people": num_people,
         "currency": currency.upper(),
-        "exchange_rate": f"1 USD = {INR_PER_USD} INR",
-        "total_usd": total,
-        "per_person_usd": round(total / num_people),
-        "daily_spending_budget_usd": round((total - flight_cost_usd) / trip_duration_days / num_people),
-        "breakdown": breakdown,
-        "breakdown_per_person": {k: round(v / num_people) for k, v in breakdown.items()},
-        "food_detail": {
-            "daily_per_person_usd": round(food_daily_per_person),
-            "street_food_budget": round(food_daily_per_person * 0.3),
-            "restaurant_budget": round(food_daily_per_person * 0.7),
-        },
+        "total_inr": round(total * INR_PER_USD),
+        "per_person_inr": round((total / num_people) * INR_PER_USD),
+        "breakdown_inr": {k: round(v * INR_PER_USD) for k, v in breakdown.items()},
+        "breakdown_per_person_inr": {k: round((v / num_people) * INR_PER_USD) for k, v in breakdown.items()},
         "money_saving_tips": tips_by_style.get(style, tips_by_style["moderate"]),
     }
-
-    if currency.upper() == "INR":
-        result["total_inr"] = round(total * INR_PER_USD)
-        result["per_person_inr"] = round((total / num_people) * INR_PER_USD)
-        result["daily_spending_budget_inr"] = round(((total - flight_cost_usd) / trip_duration_days / num_people) * INR_PER_USD)
-        result["breakdown_inr"] = {k: round(v * INR_PER_USD) for k, v in breakdown.items()}
-        result["breakdown_per_person_inr"] = {k: round((v / num_people) * INR_PER_USD) for k, v in breakdown.items()}
-        result["food_detail"]["daily_per_person_inr"] = round(food_daily_per_person * INR_PER_USD)
-        result["food_detail"]["street_food_budget_inr"] = round(food_daily_per_person * 0.3 * INR_PER_USD)
-        result["food_detail"]["restaurant_budget_inr"] = round(food_daily_per_person * 0.7 * INR_PER_USD)
 
     return json.dumps(result)

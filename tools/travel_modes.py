@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from langchain_core.tools import tool
+from tools.currency import to_inr
 
 _TRANSPORT_PATH = Path(__file__).parent.parent / "data" / "mock_transport.json"
 _TRANSPORT: dict = json.loads(_TRANSPORT_PATH.read_text())
@@ -128,19 +129,19 @@ def compare_travel_modes(
             "mode": mode_key.replace("_", " ").title(),
             "mode_key": mode_key,
             "available": mode_info.get("available", True),
-            "total_cost_usd": total,
-            "cost_per_person_usd": round(total / max(num_people, 1)),
-            "duration_hours": 0,  # local modes don't have a duration
+            "total_cost_inr": to_inr(total),
+            "cost_per_person_inr": to_inr(round(total / max(num_people, 1))),
+            "duration_hours": 0,
             "comfort": meta["comfort"],
             "flexibility": meta["flexibility"],
             "eco_rating": meta["eco"],
             "best_for": meta["best_for"],
             "notes": mode_info.get("notes", ""),
-            "deposit_usd": mode_info.get("deposit_usd", 0),
+            "deposit_inr": to_inr(mode_info.get("deposit_usd", 0)),
             "license_required": mode_info.get("license_required", False),
         })
 
-    results.sort(key=lambda x: x["total_cost_usd"])
+    results.sort(key=lambda x: x["total_cost_inr"])
     return json.dumps(results)
 
 
@@ -207,20 +208,20 @@ def estimate_rental_costs(
         "rental_type": rental_type,
         "destination": destination,
         "available": True,
-        "daily_rate_usd": daily,
-        "weekly_rate_usd": weekly,
-        "electric_daily_rate_usd": electric_daily,
-        "total_cost_usd": round(base_cost + fuel),
-        "fuel_cost_usd": round(fuel),
-        "deposit_usd": deposit,
+        "daily_rate_inr": to_inr(daily),
+        "weekly_rate_inr": to_inr(weekly),
+        "electric_daily_rate_inr": to_inr(electric_daily) if electric_daily else None,
+        "total_cost_inr": to_inr(round(base_cost + fuel)),
+        "fuel_cost_inr": to_inr(round(fuel)),
+        "deposit_inr": to_inr(deposit),
         "license_required": rental_data.get("license_required", False),
         "license_type": rental_data.get("license_type", "Driver's license"),
         "helmet_included": rental_data.get("helmet_included", True),
         "num_units": num_units,
         "rental_days": rental_days,
-        "cost_breakdown": f"${daily}/day × {rental_days} days × {num_units} unit(s)"
-                          + (f" + ${fuel:.0f} fuel" if fuel else "")
-                          + f" = ${round(base_cost + fuel)}",
+        "cost_breakdown": f"₹{to_inr(daily)}/day × {rental_days} days × {num_units} unit(s)"
+                          + (f" + ₹{to_inr(fuel)} fuel" if fuel else "")
+                          + f" = ₹{to_inr(round(base_cost + fuel))}",
         "tips": rental_data.get("notes", ""),
     }
     return json.dumps(result)

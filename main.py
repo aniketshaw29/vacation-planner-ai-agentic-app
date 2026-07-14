@@ -24,7 +24,9 @@ class UserPreferences(BaseModel):
     food_tier: list[str] = ["mid_range", "street_food"]
     dietary_restrictions: str = "none"
     transport_modes: list[str] = ["flight", "train", "bus", "scooter"]
-    origin_city: str = "New York"
+    origin_city: str = "Mumbai"
+    home_country: str = "India"
+    trip_type: str = "domestic"  # "domestic" or "international"
     currency: str = "INR"
 
     @property
