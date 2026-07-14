@@ -1,0 +1,185 @@
+{
+  "cities": {
+    "Bali": {
+      "modes": {
+        "scooter_rental": { "available": true, "daily_usd": 6, "weekly_usd": 35, "deposit_usd": 20, "license_required": true, "license_type": "International Driver's License", "helmet_included": true, "fuel_per_day_usd": 2, "notes": "Most popular way to get around; be cautious on mountain roads" },
+        "bicycle_rental": { "available": true, "daily_usd": 5, "weekly_usd": 28, "deposit_usd": 10, "electric_available": true, "electric_daily_usd": 12, "notes": "Good for flat areas; Ubud has hills" },
+        "taxi_ride_share": { "available": true, "app": "Grab / Gojek", "base_fare_usd": 1.5, "per_km_usd": 0.4, "avg_city_ride_usd": 3, "notes": "Always use app-based taxis, avoid unmarked cabs" },
+        "private_driver": { "available": true, "half_day_usd": 35, "full_day_usd": 55, "notes": "Best for day trips to temples; driver waits while you visit" },
+        "motorbike_rental": { "available": true, "daily_usd": 10, "weekly_usd": 60, "deposit_usd": 30, "license_required": true, "notes": "For experienced riders only — more power for mountain roads" }
+      },
+      "transit_times_min": { "Ubud->Seminyak": 60, "Ubud->Canggu": 75, "Seminyak->Uluwatu": 45, "Airport->Ubud": 90, "Airport->Seminyak": 30, "Canggu->Uluwatu": 55 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 15, "comfortable": 30 }
+    },
+    "Kyoto": {
+      "modes": {
+        "subway_bus": { "available": true, "day_pass_usd": 5.5, "per_ride_usd": 2.2, "notes": "Excellent coverage; IC card (Suica/Icoca) works on all trains and buses" },
+        "bicycle_rental": { "available": true, "daily_usd": 8, "weekly_usd": 45, "deposit_usd": 20, "electric_available": true, "electric_daily_usd": 18, "notes": "City is very bike-friendly; e-bike recommended for Arashiyama hills" },
+        "taxi": { "available": true, "base_fare_usd": 5, "per_km_usd": 2.5, "avg_city_ride_usd": 12, "notes": "Expensive but comfortable; required for late-night trips" },
+        "walking": { "available": true, "notes": "Higashiyama and Gion are best explored on foot" }
+      },
+      "transit_times_min": { "Kyoto Station->Gion": 15, "Kyoto Station->Arashiyama": 25, "Gion->Fushimi Inari": 20, "Central Kyoto->Nishiki Market": 10 },
+      "daily_transport_budget_usd": { "budget": 6, "moderate": 12, "comfortable": 25 }
+    },
+    "Barcelona": {
+      "modes": {
+        "metro": { "available": true, "day_pass_usd": 11, "per_ride_usd": 2.4, "notes": "T-Casual 10-trip card is best value at $12" },
+        "bicycle_rental": { "available": true, "daily_usd": 10, "weekly_usd": 55, "deposit_usd": 0, "electric_available": true, "electric_daily_usd": 20, "notes": "Bicing city bikes available with app; city has great bike lanes" },
+        "taxi_ride_share": { "available": true, "app": "Cabify / Uber", "base_fare_usd": 3, "per_km_usd": 1.2, "avg_city_ride_usd": 10, "notes": "Reasonable fares; Uber available" },
+        "walking": { "available": true, "notes": "Gothic Quarter, Eixample, and waterfront all walkable" }
+      },
+      "transit_times_min": { "Airport->City Center": 35, "Sagrada Familia->Gothic Quarter": 20, "Barceloneta->Park Güell": 30 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 25 }
+    },
+    "Bangkok": {
+      "modes": {
+        "bts_skytrain": { "available": true, "day_pass_usd": 4.5, "per_ride_usd": 1.0, "notes": "Best way to avoid Bangkok traffic; covers main tourist areas" },
+        "tuk_tuk": { "available": true, "short_trip_usd": 2, "hour_usd": 8, "notes": "Negotiate price BEFORE getting in; mostly for short hops or tourists" },
+        "taxi_ride_share": { "available": true, "app": "Grab", "base_fare_usd": 1, "per_km_usd": 0.35, "avg_city_ride_usd": 4, "notes": "Grab is the safest and most transparent option" },
+        "scooter_rental": { "available": true, "daily_usd": 10, "weekly_usd": 60, "deposit_usd": 25, "license_required": true, "notes": "Dangerous in Bangkok traffic — only for experienced riders" },
+        "boat": { "available": true, "per_ride_usd": 0.5, "notes": "Chao Phraya Express boat is fast and cheap along the river" }
+      },
+      "transit_times_min": { "Suvarnabhumi Airport->City Center": 30, "Khao San Road->Grand Palace": 15, "Sukhumvit->Chatuchak Market": 25 },
+      "daily_transport_budget_usd": { "budget": 4, "moderate": 10, "comfortable": 20 }
+    },
+    "Reykjavik": {
+      "modes": {
+        "rental_car": { "available": true, "daily_usd": 60, "weekly_usd": 350, "deposit_usd": 300, "license_required": true, "notes": "Essential for seeing Iceland properly; 4WD recommended for Highlands" },
+        "bicycle_rental": { "available": true, "daily_usd": 18, "weekly_usd": 100, "deposit_usd": 50, "electric_available": true, "electric_daily_usd": 30, "notes": "Good for city center in summer; too cold and icy in winter" },
+        "bus": { "available": true, "day_pass_usd": 8, "per_ride_usd": 3.5, "notes": "Strætó app covers city buses; limited coverage outside Reykjavik" },
+        "organized_tour": { "available": true, "day_tour_usd": 80, "notes": "Golden Circle, Northern Lights, and South Coast tours widely available from Reykjavik" }
+      },
+      "transit_times_min": { "Keflavik Airport->Reykjavik": 50, "Reykjavik->Blue Lagoon": 50, "Reykjavik->Golden Circle Start": 45 },
+      "daily_transport_budget_usd": { "budget": 20, "moderate": 45, "comfortable": 80 }
+    },
+    "Amsterdam": {
+      "modes": {
+        "bicycle_rental": { "available": true, "daily_usd": 12, "weekly_usd": 65, "deposit_usd": 50, "electric_available": true, "electric_daily_usd": 22, "notes": "The Amsterdam way — dedicated bike lanes everywhere, flat city" },
+        "tram_metro": { "available": true, "day_pass_usd": 8, "per_ride_usd": 3.2, "notes": "GVB app or I Amsterdam card; trams go everywhere in center" },
+        "canal_boat": { "available": true, "rental_hour_usd": 15, "tour_usd": 18, "notes": "Electric canal boat rental is magical — no license needed up to 15hp" },
+        "walking": { "available": true, "notes": "City center is very walkable; canal ring is best on foot" }
+      },
+      "transit_times_min": { "Amsterdam Centraal->Anne Frank House": 15, "Vondelpark->Rijksmuseum": 5, "Central Station->De Pijp": 20 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 25 }
+    },
+    "Singapore": {
+      "modes": {
+        "mrt_subway": { "available": true, "day_pass_usd": 8, "per_ride_usd": 1.5, "notes": "World-class MRT covers entire city; EZ-Link card works everywhere" },
+        "bus": { "available": true, "per_ride_usd": 0.8, "notes": "Google Maps bus directions are perfect in Singapore" },
+        "grab": { "available": true, "base_fare_usd": 3, "per_km_usd": 0.8, "avg_ride_usd": 8, "notes": "Cheaper than taxis; Grab dominates Singapore ride-sharing" },
+        "walking": { "available": true, "notes": "Central areas are connected by air-conditioned covered walkways" }
+      },
+      "transit_times_min": { "Changi Airport->City Center": 30, "Marina Bay->Orchard Road": 15, "Little India->Chinatown": 20 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 25 }
+    },
+    "Lisbon": {
+      "modes": {
+        "tram_metro": { "available": true, "day_pass_usd": 7, "per_ride_usd": 1.5, "notes": "Viva Viagem card; Tram 28 for sightseeing (but crowded)" },
+        "bicycle_rental": { "available": true, "daily_usd": 8, "weekly_usd": 45, "deposit_usd": 20, "electric_available": true, "electric_daily_usd": 18, "notes": "Lisbon is hilly — e-bike strongly recommended" },
+        "scooter_rental": { "available": true, "daily_usd": 30, "weekly_usd": 160, "deposit_usd": 100, "license_required": false, "notes": "Lime/Circ electric scooters everywhere; no license needed" },
+        "taxi_uber": { "available": true, "base_fare_usd": 3.25, "per_km_usd": 0.5, "avg_city_ride_usd": 8, "notes": "Bolt (like Uber) is cheapest ride-share in Lisbon" }
+      },
+      "transit_times_min": { "Airport->City Center": 25, "Alfama->Belém": 30, "City Center->Sintra": 40 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 22 }
+    },
+    "Dubai": {
+      "modes": {
+        "metro": { "available": true, "day_pass_usd": 5.5, "per_ride_usd": 1.6, "notes": "Gold and Silver class; covers main tourist sites including Dubai Mall and airport" },
+        "taxi": { "available": true, "base_fare_usd": 3, "per_km_usd": 0.8, "avg_city_ride_usd": 12, "notes": "Dubai Taxi is reliable; Careem app also excellent" },
+        "rental_car": { "available": true, "daily_usd": 45, "weekly_usd": 250, "deposit_usd": 500, "license_required": true, "notes": "Good for desert excursions; parking free at malls" },
+        "water_taxi": { "available": true, "per_ride_usd": 1, "notes": "Traditional abra (wooden boat) crosses Dubai Creek for 1 AED — unmissable" }
+      },
+      "transit_times_min": { "DXB Airport->City Center": 20, "Burj Khalifa->Dubai Mall": 2, "City Center->Palm Jumeirah": 35 },
+      "daily_transport_budget_usd": { "budget": 8, "moderate": 18, "comfortable": 40 }
+    },
+    "Paris": {
+      "modes": {
+        "metro": { "available": true, "day_pass_usd": 14, "per_ride_usd": 2.2, "notes": "Most efficient; Paris Visite pass for 2-5 days; zone 1-3 covers all sights" },
+        "bicycle_rental": { "available": true, "daily_usd": 10, "weekly_usd": 50, "deposit_usd": 150, "electric_available": true, "electric_daily_usd": 20, "notes": "Vélib city bikes available with app; flat along the Seine" },
+        "taxi_uber": { "available": true, "base_fare_usd": 5, "per_km_usd": 1.5, "avg_city_ride_usd": 15, "notes": "G7 or Uber are reliable; taxis from stands don't use apps" },
+        "walking": { "available": true, "notes": "Left Bank and Marais neighborhoods are best on foot" }
+      },
+      "transit_times_min": { "CDG Airport->City Center": 35, "Eiffel Tower->Louvre": 25, "Montmartre->Notre Dame": 30 },
+      "daily_transport_budget_usd": { "budget": 8, "moderate": 15, "comfortable": 30 }
+    },
+    "Prague": {
+      "modes": {
+        "tram_metro": { "available": true, "day_pass_usd": 4, "per_ride_usd": 1.2, "notes": "Excellent public transport; 24hr pass for CZK 120 ($5) covers everything" },
+        "bicycle_rental": { "available": true, "daily_usd": 10, "weekly_usd": 55, "deposit_usd": 50, "electric_available": true, "electric_daily_usd": 20, "notes": "Czech capital is very bike-friendly with riverside paths" },
+        "taxi_bolt": { "available": true, "app": "Bolt / Uber", "base_fare_usd": 1.5, "per_km_usd": 0.5, "avg_city_ride_usd": 5, "notes": "Bolt is cheapest; avoid taxi ranks (tourist pricing)" },
+        "walking": { "available": true, "notes": "Old Town, Malá Strana, and Vinohrady all walkable; cobblestones — wear good shoes" }
+      },
+      "transit_times_min": { "Airport->City Center": 35, "Old Town->Prague Castle": 20, "Wenceslas Square->Charles Bridge": 15 },
+      "daily_transport_budget_usd": { "budget": 3, "moderate": 8, "comfortable": 18 }
+    },
+    "Rome": {
+      "modes": {
+        "metro": { "available": true, "day_pass_usd": 7, "per_ride_usd": 1.8, "notes": "Only 2 lines (A and B); Termini, Colosseum, and Spanish Steps are on it" },
+        "taxi": { "available": true, "base_fare_usd": 4.5, "per_km_usd": 1.5, "avg_city_ride_usd": 14, "notes": "Only use white official taxis from official stands" },
+        "scooter_rental": { "available": true, "daily_usd": 35, "weekly_usd": 180, "deposit_usd": 200, "license_required": false, "notes": "Electric moped (Cooltra app) available; authentic Roman experience" },
+        "walking": { "available": true, "notes": "Historic center is 2.5km across — most sights are walkable in a day" }
+      },
+      "transit_times_min": { "FCO Airport->City Center": 40, "Colosseum->Vatican": 30, "Trevi Fountain->Spanish Steps": 12 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 25 }
+    },
+    "New York City": {
+      "modes": {
+        "subway": { "available": true, "unlimited_7day_usd": 34, "per_ride_usd": 2.9, "notes": "Best way to get around; 24/7 service; OMNY tap to pay with any contactless card" },
+        "bicycle_rental": { "available": true, "daily_usd": 18, "weekly_usd": 85, "deposit_usd": 0, "electric_available": true, "electric_daily_usd": 30, "notes": "Citi Bike available everywhere in Manhattan and Brooklyn" },
+        "taxi_uber": { "available": true, "base_fare_usd": 3, "per_km_usd": 1.5, "avg_city_ride_usd": 15, "notes": "Uber/Lyft; yellow cabs in Manhattan; surge pricing in evenings" },
+        "walking": { "available": true, "notes": "Manhattan is a grid — easy to navigate; walkable blocks" }
+      },
+      "transit_times_min": { "JFK Airport->Manhattan": 55, "Times Square->Central Park": 5, "Brooklyn Bridge->Manhattan Bridge": 20 },
+      "daily_transport_budget_usd": { "budget": 8, "moderate": 18, "comfortable": 35 }
+    },
+    "Tokyo": {
+      "modes": {
+        "jr_pass_subway": { "available": true, "day_pass_usd": 7, "per_ride_usd": 2.0, "notes": "Suica IC card is essential; IC card works on all trains, buses, and at convenience stores" },
+        "bicycle_rental": { "available": true, "daily_usd": 12, "weekly_usd": 65, "deposit_usd": 30, "electric_available": true, "electric_daily_usd": 20, "notes": "Good in flat areas; many wards have Docomo bike-share stations" },
+        "taxi": { "available": true, "base_fare_usd": 7, "per_km_usd": 2.8, "avg_city_ride_usd": 18, "notes": "Expensive but immaculately clean and reliable; drivers often don't speak English" }
+      },
+      "transit_times_min": { "NRT Airport->Shinjuku": 60, "Shinjuku->Asakusa": 25, "Shibuya->Harajuku": 3 },
+      "daily_transport_budget_usd": { "budget": 8, "moderate": 15, "comfortable": 30 }
+    },
+    "Cancun": {
+      "modes": {
+        "rental_car": { "available": true, "daily_usd": 25, "weekly_usd": 140, "deposit_usd": 300, "license_required": true, "notes": "Best for visiting Chichen Itza and Tulum; highway tolls ~$10 round trip" },
+        "bus_ado": { "available": true, "day_trip_usd": 12, "per_ride_usd": 3, "notes": "ADO buses to Chichen Itza, Playa del Carmen, Tulum are comfortable and cheap" },
+        "colectivos": { "available": true, "per_ride_usd": 1, "notes": "Shared mini-vans along Hwy 307 — cheapest way to move between Cancun and Tulum" },
+        "taxi": { "available": true, "hotel_zone_ride_usd": 15, "notes": "Fixed-rate taxis; always agree price before getting in" }
+      },
+      "transit_times_min": { "Airport->Hotel Zone": 25, "Cancun->Chichen Itza": 200, "Cancun->Tulum": 130, "Cancun->Playa del Carmen": 60 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 15, "comfortable": 30 }
+    },
+    "Maldives": {
+      "modes": {
+        "speedboat": { "available": true, "transfer_usd": 30, "notes": "Main transfer between Male and local islands (20-90 min)" },
+        "seaplane": { "available": true, "transfer_usd": 350, "notes": "Required for remote atolls; spectacular views" },
+        "dhoni_boat": { "available": true, "island_hop_usd": 15, "notes": "Traditional wooden boat; best for exploring nearby islands" },
+        "snorkel_equipment": { "available": true, "daily_usd": 8, "notes": "Snorkeling gear rental from most resorts and local islands" }
+      },
+      "transit_times_min": { "Male Airport->Maafushi": 45, "Male Airport->Remote Atoll Seaplane": 30 },
+      "daily_transport_budget_usd": { "budget": 20, "moderate": 50, "comfortable": 120 }
+    },
+    "Rio de Janeiro": {
+      "modes": {
+        "metro": { "available": true, "day_pass_usd": 4, "per_ride_usd": 1.3, "notes": "Covers Copacabana, Ipanema, and city center; avoid rush hour" },
+        "cable_car": { "available": true, "sugarloaf_usd": 28, "corcovado_train_usd": 22, "notes": "Sugarloaf cable car and Corcovado cog train are attractions in themselves" },
+        "taxi_uber": { "available": true, "base_fare_usd": 2, "per_km_usd": 0.7, "avg_city_ride_usd": 8, "notes": "Uber is recommended over street taxis for safety" },
+        "bicycle_rental": { "available": true, "daily_usd": 8, "weekly_usd": 45, "deposit_usd": 30, "notes": "Excellent bike path along Ipanema and Copacabana beachfronts" }
+      },
+      "transit_times_min": { "GIG Airport->Ipanema": 40, "Ipanema->Corcovado": 25, "Copacabana->Sugarloaf": 20 },
+      "daily_transport_budget_usd": { "budget": 5, "moderate": 12, "comfortable": 25 }
+    }
+  },
+  "inter_city": {
+    "default_modes": ["flight", "train", "bus", "car", "budget_airline"],
+    "approx_costs_per_100km_usd": {
+      "flight": 30,
+      "train": 12,
+      "bus": 5,
+      "car_rental_split_2": 8,
+      "budget_airline": 18
+    }
+  }
+}

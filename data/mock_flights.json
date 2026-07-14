@@ -1,0 +1,66 @@
+{
+  "routes": {
+    "NEW YORK->BALI": [
+      { "airline": "Singapore Airlines", "flight_number": "SQ22", "price_usd_economy": 820, "price_usd_business": 2400, "duration_hours": 21.5, "stops": 1, "stop_cities": ["Singapore"], "departure_times": ["08:00", "22:00"], "baggage_kg": 30, "rating": 4.7 },
+      { "airline": "Cathay Pacific", "flight_number": "CX831", "price_usd_economy": 760, "price_usd_business": 2100, "duration_hours": 23, "stops": 1, "stop_cities": ["Hong Kong"], "departure_times": ["11:00", "23:45"], "baggage_kg": 25, "rating": 4.5 },
+      { "airline": "EVA Air", "flight_number": "BR33", "price_usd_economy": 690, "price_usd_business": 1900, "duration_hours": 24.5, "stops": 1, "stop_cities": ["Taipei"], "departure_times": ["14:30"], "baggage_kg": 30, "rating": 4.6 }
+    ],
+    "NEW YORK->KYOTO": [
+      { "airline": "JAL", "flight_number": "JL006", "price_usd_economy": 750, "price_usd_business": 3200, "duration_hours": 14, "stops": 0, "stop_cities": [], "departure_times": ["11:30", "13:00"], "baggage_kg": 23, "rating": 4.8 },
+      { "airline": "ANA", "flight_number": "NH10", "price_usd_economy": 720, "price_usd_business": 2900, "duration_hours": 14.5, "stops": 0, "stop_cities": [], "departure_times": ["09:45"], "baggage_kg": 23, "rating": 4.7 }
+    ],
+    "NEW YORK->BARCELONA": [
+      { "airline": "Iberia", "flight_number": "IB6252", "price_usd_economy": 520, "price_usd_business": 1800, "duration_hours": 8, "stops": 0, "stop_cities": [], "departure_times": ["22:30", "10:00"], "baggage_kg": 23, "rating": 4.3 },
+      { "airline": "Norwegian", "flight_number": "DY7018", "price_usd_economy": 380, "price_usd_business": 950, "duration_hours": 8.5, "stops": 0, "stop_cities": [], "departure_times": ["18:00"], "baggage_kg": 20, "rating": 3.8 },
+      { "airline": "Delta", "flight_number": "DL409", "price_usd_economy": 650, "price_usd_business": 2200, "duration_hours": 8, "stops": 0, "stop_cities": [], "departure_times": ["20:45"], "baggage_kg": 23, "rating": 4.2 }
+    ],
+    "NEW YORK->ROME": [
+      { "airline": "Alitalia", "flight_number": "AZ610", "price_usd_economy": 480, "price_usd_business": 1600, "duration_hours": 9.5, "stops": 0, "stop_cities": [], "departure_times": ["19:00", "08:00"], "baggage_kg": 23, "rating": 3.9 },
+      { "airline": "United", "flight_number": "UA40", "price_usd_economy": 590, "price_usd_business": 2100, "duration_hours": 9, "stops": 0, "stop_cities": [], "departure_times": ["21:00"], "baggage_kg": 23, "rating": 4.1 }
+    ],
+    "NEW YORK->PARIS": [
+      { "airline": "Air France", "flight_number": "AF007", "price_usd_economy": 550, "price_usd_business": 2000, "duration_hours": 7.5, "stops": 0, "stop_cities": [], "departure_times": ["22:00", "09:30"], "baggage_kg": 23, "rating": 4.4 },
+      { "airline": "American Airlines", "flight_number": "AA68", "price_usd_economy": 490, "price_usd_business": 1700, "duration_hours": 7.5, "stops": 0, "stop_cities": [], "departure_times": ["17:30"], "baggage_kg": 23, "rating": 4.0 }
+    ],
+    "NEW YORK->BANGKOK": [
+      { "airline": "Thai Airways", "flight_number": "TG791", "price_usd_economy": 850, "price_usd_business": 2800, "duration_hours": 20, "stops": 1, "stop_cities": ["Tokyo"], "departure_times": ["10:00"], "baggage_kg": 30, "rating": 4.4 },
+      { "airline": "Qatar Airways", "flight_number": "QR745", "price_usd_economy": 780, "price_usd_business": 2600, "duration_hours": 22, "stops": 1, "stop_cities": ["Doha"], "departure_times": ["22:00"], "baggage_kg": 30, "rating": 4.7 }
+    ],
+    "NEW YORK->REYKJAVIK": [
+      { "airline": "Icelandair", "flight_number": "FI614", "price_usd_economy": 420, "price_usd_business": 1200, "duration_hours": 7, "stops": 0, "stop_cities": [], "departure_times": ["20:15", "14:00"], "baggage_kg": 23, "rating": 4.3 }
+    ],
+    "NEW YORK->AMSTERDAM": [
+      { "airline": "KLM", "flight_number": "KL642", "price_usd_economy": 460, "price_usd_business": 1700, "duration_hours": 8, "stops": 0, "stop_cities": [], "departure_times": ["21:30", "09:00"], "baggage_kg": 23, "rating": 4.5 }
+    ],
+    "NEW YORK->MALDIVES": [
+      { "airline": "Emirates", "flight_number": "EK202", "price_usd_economy": 1100, "price_usd_business": 3500, "duration_hours": 18, "stops": 1, "stop_cities": ["Dubai"], "departure_times": ["22:00"], "baggage_kg": 30, "rating": 4.8 }
+    ],
+    "NEW YORK->LISBON": [
+      { "airline": "TAP Air Portugal", "flight_number": "TP201", "price_usd_economy": 410, "price_usd_business": 1400, "duration_hours": 7.5, "stops": 0, "stop_cities": [], "departure_times": ["22:45", "08:00"], "baggage_kg": 23, "rating": 4.1 }
+    ],
+    "NEW YORK->DUBAI": [
+      { "airline": "Emirates", "flight_number": "EK202", "price_usd_economy": 750, "price_usd_business": 2800, "duration_hours": 13, "stops": 0, "stop_cities": [], "departure_times": ["22:30", "12:30"], "baggage_kg": 30, "rating": 4.8 }
+    ],
+    "NEW YORK->PRAGUE": [
+      { "airline": "Czech Airlines", "flight_number": "OK55", "price_usd_economy": 480, "price_usd_business": 1600, "duration_hours": 9.5, "stops": 0, "stop_cities": [], "departure_times": ["22:00"], "baggage_kg": 23, "rating": 4.0 },
+      { "airline": "Lufthansa", "flight_number": "LH418", "price_usd_economy": 510, "price_usd_business": 1800, "duration_hours": 10, "stops": 1, "stop_cities": ["Frankfurt"], "departure_times": ["18:30"], "baggage_kg": 23, "rating": 4.4 }
+    ],
+    "NEW YORK->CANCUN": [
+      { "airline": "American Airlines", "flight_number": "AA1415", "price_usd_economy": 220, "price_usd_business": 650, "duration_hours": 4, "stops": 0, "stop_cities": [], "departure_times": ["06:00", "11:30", "16:00", "20:30"], "baggage_kg": 23, "rating": 4.0 },
+      { "airline": "JetBlue", "flight_number": "B61003", "price_usd_economy": 180, "price_usd_business": 550, "duration_hours": 4, "stops": 0, "stop_cities": [], "departure_times": ["07:00", "14:00"], "baggage_kg": 23, "rating": 4.2 }
+    ],
+    "NEW YORK->SINGAPORE": [
+      { "airline": "Singapore Airlines", "flight_number": "SQ026", "price_usd_economy": 900, "price_usd_business": 3200, "duration_hours": 19, "stops": 0, "stop_cities": [], "departure_times": ["10:30", "22:00"], "baggage_kg": 30, "rating": 4.9 }
+    ],
+    "NEW YORK->RIO DE JANEIRO": [
+      { "airline": "LATAM", "flight_number": "LA8040", "price_usd_economy": 600, "price_usd_business": 2000, "duration_hours": 10, "stops": 0, "stop_cities": [], "departure_times": ["23:30", "09:00"], "baggage_kg": 23, "rating": 4.2 }
+    ],
+    "NEW YORK->TOKYO": [
+      { "airline": "JAL", "flight_number": "JL006", "price_usd_economy": 750, "price_usd_business": 3200, "duration_hours": 14, "stops": 0, "stop_cities": [], "departure_times": ["11:30"], "baggage_kg": 23, "rating": 4.8 },
+      { "airline": "ANA", "flight_number": "NH110", "price_usd_economy": 720, "price_usd_business": 2900, "duration_hours": 14, "stops": 0, "stop_cities": [], "departure_times": ["09:00"], "baggage_kg": 23, "rating": 4.7 }
+    ]
+  },
+  "price_multipliers": { "winter": 0.85, "spring": 1.0, "summer": 1.25, "autumn": 0.95 },
+  "group_discounts": { "5": 0.05, "10": 0.10 },
+  "default_origin": "New York"
+}

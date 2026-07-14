@@ -1,0 +1,132 @@
+{
+  "Bali": {
+    "street_food": [
+      { "name": "Warung Babi Guling Ibu Oka", "cuisine": "Balinese", "specialty": "Suckling pig (babi guling)", "avg_cost_usd": 4, "location": "Ubud Center", "open": "11:00", "close": "15:00", "reservation": false, "rating": 4.6, "vegetarian": false, "must_try": ["Babi guling rice plate", "Crispy skin pork crackling"], "notes": "A Balinese institution — Anthony Bourdain ate here" },
+      { "name": "Warung Nasi Ayam Kedewatan", "cuisine": "Balinese", "specialty": "Nasi campur (mixed rice)", "avg_cost_usd": 3, "location": "Kedewatan, Ubud", "open": "08:00", "close": "20:00", "reservation": false, "rating": 4.5, "vegetarian": true, "must_try": ["Nasi campur", "Sate lilit"], "notes": "Order everything and point — nothing disappoints" },
+      { "name": "Canggu Bule Market", "cuisine": "Mixed", "specialty": "Street food market", "avg_cost_usd": 3, "location": "Canggu", "open": "17:00", "close": "23:00", "reservation": false, "rating": 4.3, "vegetarian": true, "must_try": ["Mie goreng", "Bakso soup", "Fresh coconut"], "notes": "Local night market — weekends busiest" }
+    ],
+    "budget": [
+      { "name": "Naughty Nuri's Warung", "cuisine": "Balinese BBQ", "specialty": "Pork ribs", "avg_cost_usd": 8, "location": "Ubud", "open": "11:30", "close": "22:00", "reservation": false, "rating": 4.7, "vegetarian": false, "must_try": ["BBQ pork ribs", "Martini"], "notes": "Legendary ribs — the queue is worth it" },
+      { "name": "Kafe Batan Waru", "cuisine": "Indonesian", "specialty": "Nasi goreng", "avg_cost_usd": 7, "location": "Ubud", "open": "08:00", "close": "22:00", "reservation": false, "rating": 4.4, "vegetarian": true, "must_try": ["Nasi goreng", "Gado gado", "Fresh juices"], "notes": "Great local menu, open kitchen" }
+    ],
+    "mid_range": [
+      { "name": "Merah Putih", "cuisine": "Modern Indonesian", "specialty": "Creative Indonesian tasting", "avg_cost_usd": 25, "location": "Seminyak", "open": "12:00", "close": "23:00", "reservation": true, "rating": 4.8, "vegetarian": true, "must_try": ["Beef rendang", "Crispy duck", "Pandan cocktails"], "notes": "Stunning open-air bamboo architecture" },
+      { "name": "Hujan Locale", "cuisine": "Modern Indonesian", "specialty": "Regional Indonesian", "avg_cost_usd": 22, "location": "Ubud", "open": "12:00", "close": "22:00", "reservation": true, "rating": 4.7, "vegetarian": true, "must_try": ["Sambal collection", "Ikan pepes"], "notes": "Chef Will Meyrick's celebration of Indonesia's regional cuisines" }
+    ],
+    "fine_dining": [
+      { "name": "Locavore", "cuisine": "Modern Indonesian / Farm-to-table", "specialty": "Chef's tasting menu", "avg_cost_usd": 85, "location": "Ubud", "open": "12:00", "close": "22:00", "reservation": true, "reservation_notes": "Book 3+ weeks in advance", "rating": 4.9, "vegetarian": true, "must_try": ["12-course tasting menu", "Local ingredient cocktails"], "notes": "Asia's 50 Best Restaurants — worth every rupiah" }
+    ],
+    "food_notes": "Try a $3 nasi campur (mixed rice) for a complete, authentic Balinese meal. Eat at warungs (small local restaurants) for the best food."
+  },
+  "Kyoto": {
+    "street_food": [
+      { "name": "Nishiki Market Stalls", "cuisine": "Japanese street food", "specialty": "Various snacks", "avg_cost_usd": 3, "location": "Nishiki Market, Downtown", "open": "09:00", "close": "18:00", "reservation": false, "rating": 4.5, "vegetarian": true, "must_try": ["Grilled mochi", "Pickled vegetables", "Fresh tofu"], "notes": "Kyoto's kitchen — 100 stalls in a narrow arcade" }
+    ],
+    "budget": [
+      { "name": "Ippudo Ramen Kyoto", "cuisine": "Japanese", "specialty": "Tonkotsu ramen", "avg_cost_usd": 12, "location": "Downtown", "open": "11:00", "close": "22:00", "reservation": false, "rating": 4.6, "vegetarian": false, "must_try": ["Shiromaru classic", "Spicy kara men"], "notes": "Japan's most famous ramen chain — queue expected but fast" },
+      { "name": "Kyoto Gogyo", "cuisine": "Japanese", "specialty": "Burnt miso ramen", "avg_cost_usd": 14, "location": "Gion", "open": "18:00", "close": "02:00", "reservation": false, "rating": 4.7, "vegetarian": false, "must_try": ["Kogashi miso ramen"], "notes": "Black burnt miso broth — unlike anything else in Japan" }
+    ],
+    "mid_range": [
+      { "name": "Kikunoi Honten", "cuisine": "Kaiseki", "specialty": "Traditional kaiseki", "avg_cost_usd": 60, "location": "Higashiyama", "open": "12:00", "close": "20:00", "reservation": true, "rating": 4.9, "vegetarian": false, "must_try": ["Seasonal kaiseki course", "Kyoto tofu"], "notes": "3 Michelin stars — the definitive kaiseki experience at a relatively accessible price" }
+    ],
+    "fine_dining": [
+      { "name": "Nakamura", "cuisine": "Traditional Kyoto kaiseki", "specialty": "Imperial court cuisine", "avg_cost_usd": 150, "location": "Nishiki area", "open": "12:00", "close": "20:00", "reservation": true, "reservation_notes": "Reserve months in advance for dinner", "rating": 4.9, "vegetarian": false, "must_try": ["Full kaiseki course", "Kyoto vegetables"], "notes": "Operating since 1716 — the pinnacle of Kyoto cuisine" }
+    ],
+    "food_notes": "Kyoto cuisine emphasizes delicacy and seasonal ingredients. Try yudofu (hot tofu), obanzai (home-style small dishes), and warabi mochi for dessert."
+  },
+  "Barcelona": {
+    "street_food": [
+      { "name": "La Boqueria Market Stalls", "cuisine": "Spanish tapas & snacks", "specialty": "Fresh produce and snacks", "avg_cost_usd": 5, "location": "Las Ramblas", "open": "08:00", "close": "20:00", "reservation": false, "rating": 4.3, "vegetarian": true, "must_try": ["Jamón ibérico", "Fresh seafood", "Fruit cups"], "notes": "Go at opening — midday it's packed with tourists and vendors get annoyed" }
+    ],
+    "budget": [
+      { "name": "Bar Calders", "cuisine": "Catalan tapas", "specialty": "Pintxos and beer", "avg_cost_usd": 12, "location": "Sant Antoni", "open": "09:00", "close": "01:00", "reservation": false, "rating": 4.6, "vegetarian": true, "must_try": ["Tortilla española", "Croquetas", "Patatas bravas"], "notes": "A local neighborhood bar — the kind tourists don't find but locals love" }
+    ],
+    "mid_range": [
+      { "name": "Bodega Sepúlveda", "cuisine": "Spanish wine bar", "specialty": "Natural wines + small plates", "avg_cost_usd": 28, "location": "Eixample", "open": "13:00", "close": "23:00", "reservation": true, "rating": 4.7, "vegetarian": true, "must_try": ["Wine flight", "Jamón carving", "Anchovy toast"], "notes": "Barcelona's best natural wine list with exceptional charcuterie" },
+      { "name": "Quimet & Quimet", "cuisine": "Tapas bar", "specialty": "Montaditos (mini open-faced sandwiches)", "avg_cost_usd": 18, "location": "Poble Sec", "open": "12:00", "close": "16:00", "reservation": false, "rating": 4.8, "vegetarian": false, "must_try": ["Tinned fish montaditos", "Yogurt + honey + salmon"], "notes": "Tiny standing bar open only lunch — worth squeezing in for the best montaditos in Barcelona" }
+    ],
+    "fine_dining": [
+      { "name": "Disfrutar", "cuisine": "Avant-garde Catalan", "specialty": "Creative tasting menu", "avg_cost_usd": 220, "location": "Eixample", "open": "13:00", "close": "22:00", "reservation": true, "reservation_notes": "Book 3-4 months ahead", "rating": 5.0, "vegetarian": true, "must_try": ["30-course tasting menu", "Liquid olive spherification"], "notes": "#2 Best Restaurant in the World 2023 — a once-in-a-lifetime meal" }
+    ],
+    "food_notes": "Eat lunch (14:00-16:00) like a local — it's the main meal, cheaper and often comes with a prix-fixe menu del día for €12-15."
+  },
+  "Rome": {
+    "street_food": [
+      { "name": "Supplì Roma", "cuisine": "Roman street food", "specialty": "Suppli (fried rice balls)", "avg_cost_usd": 3, "location": "Trastevere", "open": "12:00", "close": "22:00", "reservation": false, "rating": 4.7, "vegetarian": false, "must_try": ["Classic suppli al telefono", "Cacio e pepe suppli"], "notes": "Best street snack in Rome — cheese pull is spectacular" }
+    ],
+    "budget": [
+      { "name": "Da Enzo al 29", "cuisine": "Roman trattoria", "specialty": "Cacio e pepe pasta", "avg_cost_usd": 18, "location": "Trastevere", "open": "12:30", "close": "22:30", "reservation": true, "rating": 4.8, "vegetarian": false, "must_try": ["Cacio e pepe", "Gricia pasta", "Coda alla vaccinara"], "notes": "The definitive Roman trattoria — reserve a week ahead for evenings" }
+    ],
+    "mid_range": [
+      { "name": "Roscioli Salumeria", "cuisine": "Italian deli + wine bar", "specialty": "Charcuterie, cheese, pasta", "avg_cost_usd": 35, "location": "Campo de Fiori", "open": "09:00", "close": "23:30", "reservation": true, "rating": 4.9, "vegetarian": false, "must_try": ["Carbonara", "Charcuterie board", "Natural wine"], "notes": "Rome's best food destination — also a deli, bakery, and incredible wine cellar" }
+    ],
+    "fine_dining": [
+      { "name": "La Pergola", "cuisine": "Modern Italian", "specialty": "Three-course tasting", "avg_cost_usd": 250, "location": "Monte Mario", "open": "19:30", "close": "23:00", "reservation": true, "reservation_notes": "Book 2+ months ahead", "rating": 5.0, "vegetarian": false, "must_try": ["8-course degustation", "Roman panorama view"], "notes": "Rome's only 3 Michelin star restaurant — stunning Rome panorama" }
+    ],
+    "food_notes": "The four Roman pastas: carbonara, cacio e pepe, amatriciana, gricia. Never order them anywhere else — they'll disappoint. Gelato: look for 'artigianale' sign and natural colors."
+  },
+  "Paris": {
+    "street_food": [
+      { "name": "Marché des Enfants Rouges", "cuisine": "International street market", "specialty": "Lebanese, Japanese, French stalls", "avg_cost_usd": 8, "location": "Le Marais", "open": "08:30", "close": "21:00", "reservation": false, "rating": 4.6, "vegetarian": true, "must_try": ["Lebanese meze", "Japanese bento", "Moroccan pastilla"], "notes": "Paris's oldest covered market (1615) — an international food hall" }
+    ],
+    "budget": [
+      { "name": "L'As du Fallafel", "cuisine": "Israeli falafel", "specialty": "Falafel wrap", "avg_cost_usd": 8, "location": "Le Marais", "open": "12:00", "close": "23:30", "reservation": false, "rating": 4.7, "vegetarian": true, "must_try": ["Falafel sandwich with eggplant"], "notes": "Best falafel in Paris — queue wraps around the block for good reason" },
+      { "name": "Bouillon Pigalle", "cuisine": "French brasserie", "specialty": "Classic French bistro food", "avg_cost_usd": 16, "location": "Pigalle", "open": "12:00", "close": "24:00", "reservation": false, "rating": 4.6, "vegetarian": false, "must_try": ["Œuf mayo", "Steak frites", "Profiteroles"], "notes": "Affordable authentic French brasserie — €2 glass of wine, €12 steak frites" }
+    ],
+    "mid_range": [
+      { "name": "Le Comptoir du Relais", "cuisine": "French bistro", "specialty": "Classic Parisian cuisine", "avg_cost_usd": 45, "location": "Saint-Germain", "open": "12:00", "close": "23:00", "reservation": true, "rating": 4.8, "vegetarian": false, "must_try": ["Duck foie gras terrine", "Sole meunière"], "notes": "Yves Camdeborde's legendary bistro — the place that launched the neo-bistro movement" }
+    ],
+    "fine_dining": [
+      { "name": "Guy Savoy", "cuisine": "French haute cuisine", "specialty": "Classic French tasting", "avg_cost_usd": 350, "location": "Monnaie de Paris", "open": "12:00", "close": "21:00", "reservation": true, "reservation_notes": "Book 2+ months ahead", "rating": 5.0, "vegetarian": false, "must_try": ["Artichoke and black truffle soup", "Colors of caviar"], "notes": "3 Michelin stars in the Mint of Paris — one of the world's truly great restaurants" }
+    ],
+    "food_notes": "Do a market picnic: buy a baguette from a boulangerie, cheese from a fromagerie, charcuterie from a charcuterie, and a bottle of Bordeaux — eat in the Luxembourg Gardens for €15 total."
+  },
+  "Bangkok": {
+    "street_food": [
+      { "name": "Jay Fai", "cuisine": "Thai street food", "specialty": "Crab omelette", "avg_cost_usd": 30, "location": "Old Town", "open": "14:00", "close": "24:00", "reservation": false, "rating": 4.9, "vegetarian": false, "must_try": ["Crab omelette", "Pad see ew"], "notes": "Michelin-starred street food — arrive at 14:00 opening or queue 4 hours" },
+      { "name": "Or Tor Kor Market", "cuisine": "Thai market", "specialty": "Fresh Thai dishes", "avg_cost_usd": 5, "location": "Chatuchak", "open": "06:00", "close": "18:00", "reservation": false, "rating": 4.7, "vegetarian": true, "must_try": ["Pad thai", "Mango sticky rice", "Tom yum soup"], "notes": "Best quality fresh market in Bangkok — also great for exotic tropical fruits" },
+      { "name": "Khao San Road Night Food", "cuisine": "Thai street food", "specialty": "Pad thai, BBQ skewers", "avg_cost_usd": 3, "location": "Khao San Road", "open": "18:00", "close": "02:00", "reservation": false, "rating": 4.2, "vegetarian": true, "must_try": ["Pad thai from street cart", "Chicken satay", "Som tum"], "notes": "Tourist-friendly but fun — best energy and nightlife food scene in Bangkok" }
+    ],
+    "budget": [
+      { "name": "Pad Thai Fawng", "cuisine": "Thai", "specialty": "Pad thai", "avg_cost_usd": 6, "location": "Thonglor", "open": "18:00", "close": "01:00", "reservation": false, "rating": 4.8, "vegetarian": true, "must_try": ["Pad thai noodles"], "notes": "Best pad thai in Bangkok — simple shop, long queue, worth every minute" }
+    ],
+    "mid_range": [
+      { "name": "Bo.Lan", "cuisine": "Royal Thai", "specialty": "Heritage Thai tasting", "avg_cost_usd": 50, "location": "Ekkamai", "open": "12:00", "close": "22:00", "reservation": true, "rating": 4.8, "vegetarian": true, "must_try": ["9-course set menu", "Ancient Thai recipes"], "notes": "Champions of sustainable Thai cuisine and forgotten recipes" }
+    ],
+    "fine_dining": [
+      { "name": "Gaggan Anand", "cuisine": "Progressive Indian-Thai", "specialty": "25-course tasting", "avg_cost_usd": 200, "location": "Ekkamai", "open": "18:00", "close": "22:00", "reservation": true, "reservation_notes": "Book 3+ months ahead", "rating": 5.0, "vegetarian": true, "must_try": ["Lick it up course", "Emoji menu"], "notes": "4x Best Restaurant in Asia — Gaggan's return to Bangkok after legendary success" }
+    ],
+    "food_notes": "Eat where you see Thais eating. A cart or restaurant with a queue of locals is always better than anywhere with an English menu outside."
+  },
+  "Singapore": {
+    "street_food": [
+      { "name": "Maxwell Food Centre", "cuisine": "Singaporean hawker", "specialty": "Hainanese chicken rice", "avg_cost_usd": 4, "location": "Chinatown", "open": "08:00", "close": "22:00", "reservation": false, "rating": 4.8, "vegetarian": false, "must_try": ["Tian Tian chicken rice", "Char kway teow", "Laksa"], "notes": "Tian Tian stall (stall 10) is Michelin-starred and was Obama's Singapore lunch choice" },
+      { "name": "Lau Pa Sat", "cuisine": "Hawker centre", "specialty": "Satay skewers (evening)", "avg_cost_usd": 5, "location": "CBD", "open": "06:00", "close": "02:00", "reservation": false, "rating": 4.6, "vegetarian": true, "must_try": ["Satay sticks (evening only)", "Carrot cake", "Fried Hokkien mee"], "notes": "Historic 1894 hawker centre; satay vendors set up outside at night — essential Singapore experience" }
+    ],
+    "budget": [
+      { "name": "Newton Food Centre", "cuisine": "Singaporean hawker", "specialty": "Seafood and grills", "avg_cost_usd": 15, "location": "Newton", "open": "12:00", "close": "03:00", "reservation": false, "rating": 4.5, "vegetarian": false, "must_try": ["Chilli crab (half portion)", "BBQ stingray", "Tiger beer"], "notes": "Famous hawker centre — chilli crab is Singapore's national dish" }
+    ],
+    "mid_range": [
+      { "name": "Candlenut", "cuisine": "Peranakan", "specialty": "Nyonya cuisine", "avg_cost_usd": 45, "location": "Dempsey Hill", "open": "12:00", "close": "22:00", "reservation": true, "rating": 4.8, "vegetarian": false, "must_try": ["Buah keluak chicken", "Nyonya laksa", "Ondeh ondeh"], "notes": "World's first Michelin-starred Peranakan restaurant — Singapore's unique fusion food culture" }
+    ],
+    "fine_dining": [
+      { "name": "Odette", "cuisine": "Contemporary French", "specialty": "French-Asian tasting", "avg_cost_usd": 280, "location": "National Gallery", "open": "12:00", "close": "21:00", "reservation": true, "reservation_notes": "Book 2+ months ahead", "rating": 5.0, "vegetarian": true, "must_try": ["Tasting menu", "Wine pairing"], "notes": "Asia's #1 restaurant 2023 — inside the National Gallery overlooking the Padang" }
+    ],
+    "food_notes": "Singapore has over 100 hawker centres — eating here is a national pastime. Expect to spend $3-6 for a complete meal. Visit Chinatown, Little India, and Arab Street food areas."
+  },
+  "Lisbon": {
+    "street_food": [
+      { "name": "Pastéis de Belém", "cuisine": "Portuguese pastry", "specialty": "Pastel de nata (custard tart)", "avg_cost_usd": 2, "location": "Belém", "open": "08:00", "close": "23:00", "reservation": false, "rating": 4.9, "vegetarian": true, "must_try": ["Pastel de nata with cinnamon and powdered sugar"], "notes": "The original since 1837 — eat warm from the oven with a bica (espresso)" }
+    ],
+    "budget": [
+      { "name": "Solar dos Presuntos", "cuisine": "Portuguese taverna", "specialty": "Bacalhau (salt cod)", "avg_cost_usd": 18, "location": "Avenida da Liberdade", "open": "12:00", "close": "23:00", "reservation": true, "rating": 4.7, "vegetarian": false, "must_try": ["Bacalhau à Brás", "Açorda de marisco", "Pasteis de nata"], "notes": "Family-run since 1976 — the definitive traditional Portuguese restaurant" }
+    ],
+    "mid_range": [
+      { "name": "Time Out Market", "cuisine": "Best of Lisbon curated", "specialty": "Multiple chefs, one space", "avg_cost_usd": 20, "location": "Cais do Sodré", "open": "10:00", "close": "24:00", "reservation": false, "rating": 4.7, "vegetarian": true, "must_try": ["Prego steak sandwich", "Amêijoas à Bulhão Pato", "Ginjinha shot"], "notes": "Lisbon's best chefs under one roof — the original food hall concept that inspired the world" }
+    ],
+    "fine_dining": [
+      { "name": "Belcanto", "cuisine": "Contemporary Portuguese", "specialty": "Modern Portuguese tasting", "avg_cost_usd": 180, "location": "Chiado", "open": "12:30", "close": "22:00", "reservation": true, "reservation_notes": "Book 1+ month ahead", "rating": 4.9, "vegetarian": false, "must_try": ["The Garden of Eden", "Sea bass with clams"], "notes": "José Avillez's 2 Michelin star flagship — Portugal's most celebrated chef" }
+    ],
+    "food_notes": "Lunch is the main event in Lisbon. Look for 'menu do dia' (€10-12) at local tascas — a starter, main, dessert, wine, and coffee. Atlantic seafood is excellent everywhere."
+  }
+}
