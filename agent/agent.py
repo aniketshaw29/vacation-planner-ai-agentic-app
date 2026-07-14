@@ -12,7 +12,7 @@ from agent.providers import get_llm
 _executor_cache: dict[str, AgentExecutor] = {}
 
 
-def build_agent_executor(provider: str = "groq") -> AgentExecutor:
+def build_agent_executor(provider: str = "gemini") -> AgentExecutor:
     """Build (or return cached) AgentExecutor for the given provider."""
     if provider in _executor_cache:
         return _executor_cache[provider]
@@ -47,7 +47,7 @@ async def run_agent_stream(
     message: str,
     session_id: str,
     preferences: dict,
-    provider: str = "groq",
+    provider: str = "gemini",
 ) -> AsyncGenerator[str, None]:
     """
     Run the agent and yield SSE-formatted JSON strings.

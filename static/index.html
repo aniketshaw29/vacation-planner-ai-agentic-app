@@ -381,10 +381,10 @@
 <!-- Header -->
 <header>
   <div class="header-left">
-    <div class="logo">✈ VacationAI <span>powered by Groq + LangChain</span></div>
+    <div class="logo">✈ VacationAI <span>connect any LLM · powered by LangChain</span></div>
   </div>
   <div class="header-actions">
-    <span class="provider-badge" id="provider-badge">🤖 groq</span>
+    <span class="provider-badge" id="provider-badge">🤖 gemini</span>
     <button class="btn btn-sm" id="clear-btn" onclick="clearChat()">New Chat</button>
   </div>
 </header>
@@ -400,10 +400,13 @@
     <div class="pref-section">
       <div class="pref-section-title">🤖 AI Model</div>
       <div class="pref-row">
-        <div class="pref-label">Provider</div>
+        <div class="pref-label">Provider <span class="pref-val" style="color:var(--success);font-size:11px">plug in any LLM</span></div>
         <select class="pref-input" id="pref-provider" onchange="onProviderChange(this.value)">
-          <option value="groq">Groq — Llama 3.1 70B (Free)</option>
+          <option value="gemini">Gemini 1.5 Flash — Free tier ✓</option>
         </select>
+      </div>
+      <div id="provider-note" style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5">
+        Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>
       </div>
     </div>
 
@@ -542,7 +545,7 @@
       <div class="welcome" id="welcome">
         <div class="welcome-icon">🌍</div>
         <h2>Your AI Vacation Planner</h2>
-        <p>Powered by Groq (free) + LangChain. Configure your preferences on the left, or just start chatting!</p>
+        <p>Powered by LangChain — works with Gemini (free), Groq, OpenAI, Anthropic, or any LLM. Configure your preferences on the left, or just start chatting!</p>
         <div class="welcome-prompts">
           <div class="prompt-chip" onclick="usePrompt(this)">Plan a beach vacation for 2</div>
           <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on $2000?</div>
@@ -604,6 +607,14 @@ function onBudgetChange(val) {
 }
 function onProviderChange(val) {
   document.getElementById('provider-badge').textContent = '🤖 ' + val;
+  const notes = {
+    gemini:    'Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
+    groq:      '⚠ Groq has no free tier — requires prepaid balance at console.groq.com',
+    openai:    'Paid API — set OPENAI_API_KEY in your .env',
+    anthropic: 'Paid API — set ANTHROPIC_API_KEY in your .env',
+  };
+  const noteEl = document.getElementById('provider-note');
+  if (noteEl) noteEl.innerHTML = notes[val] || '';
 }
 
 function getActiveVals(groupId) {
@@ -639,14 +650,31 @@ async function loadProviders() {
     const data = await res.json();
     const sel = document.getElementById('pref-provider');
     sel.innerHTML = '';
-    const labels = { groq: 'Groq — Llama 3.1 70B (Free)', gemini: 'Gemini 1.5 Flash (Paid)', openai: 'GPT-4o Mini (Paid)' };
-    (data.providers || ['groq']).forEach(p => {
+    const labels = {
+      gemini:    'Gemini 1.5 Flash — Free tier ✓',
+      groq:      'Groq Llama 3.1 70B — Pay-as-you-go',
+      openai:    'GPT-4o Mini — Paid',
+      anthropic: 'Claude 3.5 Haiku — Paid',
+    };
+    const notes = {
+      gemini:    'Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
+      groq:      '⚠ Groq has no free tier — requires prepaid balance',
+      openai:    'Paid API — usage billed per token',
+      anthropic: 'Paid API — usage billed per token',
+    };
+    (data.providers || ['gemini']).forEach(p => {
       const opt = document.createElement('option');
       opt.value = p;
       opt.textContent = labels[p] || p;
       sel.appendChild(opt);
     });
-    state.providers = data.providers || ['groq'];
+    state.providers = data.providers || ['gemini'];
+    // Update note for default provider
+    const def = data.default_provider || state.providers[0];
+    if (def) {
+      document.getElementById('provider-note').innerHTML = notes[def] || '';
+      document.getElementById('provider-badge').textContent = '🤖 ' + def;
+    }
   } catch(e) {}
 }
 
@@ -672,7 +700,7 @@ function clearChat() {
   document.getElementById('messages').innerHTML = `<div class="welcome" id="welcome">
     <div class="welcome-icon">🌍</div>
     <h2>Your AI Vacation Planner</h2>
-    <p>Powered by Groq (free) + LangChain. Configure your preferences on the left, or just start chatting!</p>
+    <p>Powered by LangChain — works with Gemini (free), Groq, OpenAI, Anthropic, or any LLM. Configure your preferences on the left, or just start chatting!</p>
     <div class="welcome-prompts">
       <div class="prompt-chip" onclick="usePrompt(this)">Plan a beach vacation for 2</div>
       <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on $2000?</div>

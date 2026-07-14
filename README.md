@@ -2,10 +2,12 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square&logo=python)](https://www.python.org/downloads/)
 [![LangChain](https://img.shields.io/badge/LangChain-0.3.26-green.svg?style=flat-square)](https://python.langchain.com/)
-[![Groq](https://img.shields.io/badge/Groq-Free%20Tier-orange.svg?style=flat-square)](https://console.groq.com/)
+[![Gemini](https://img.shields.io/badge/Gemini-Free%20Tier-4285F4.svg?style=flat-square&logo=google)](https://aistudio.google.com/apikey)
 [![Deploy on Render](https://img.shields.io/badge/Render-Deploy-46E3B7.svg?style=flat-square&logo=render)](https://render.com/)
 
-An AI-powered vacation planning assistant built on a fully free stack — Groq's LLaMA 3.1 70B model, LangChain tool-calling agents, and a FastAPI streaming backend. Ask anything about destinations, flights, hotels, itineraries, routes, food, or budgets and get rich, structured responses rendered as interactive panels, all streamed token-by-token in real time.
+An AI-powered vacation planning assistant built on a **modular LLM architecture** — plug in Gemini, Groq, OpenAI, Anthropic, or any LangChain-compatible model. The default provider is **Google Gemini** (genuinely free: 1,500 requests/day, no credit card). Built with LangChain tool-calling agents and a FastAPI streaming backend; ask anything about destinations, flights, hotels, itineraries, routes, food, or budgets and get rich responses rendered as interactive panels, streamed token-by-token in real time.
+
+> **Connect any LLM** — the provider system auto-detects whichever API keys you set in `.env`. Swap providers without changing a line of code.
 
 ---
 
@@ -41,13 +43,17 @@ An AI-powered vacation planning assistant built on a fully free stack — Groq's
 
 | Layer | Technology | Cost |
 |---|---|---|
-| LLM | [Groq](https://console.groq.com/) — LLaMA 3.1 70B Versatile | Free tier |
-| Agent Framework | [LangChain](https://python.langchain.com/) 0.3 — tool-calling AgentExecutor, astream_events v2 | Free / open source |
-| Backend | [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) — SSE streaming via StreamingResponse | Free / open source |
-| Frontend | Vanilla HTML/CSS/JS — single static file, dark-themed, responsive | Free |
-| Data | Static mock JSON files (destinations, flights, hotels, food, transport) | Free |
+| LLM (default) | [Google Gemini 1.5 Flash](https://aistudio.google.com/) | **Free** — 1,500 req/day, no credit card |
+| LLM (optional) | Groq LLaMA 3.1 70B | Pay-as-you-go — **no free tier**, requires prepaid balance |
+| LLM (optional) | OpenAI GPT-4o Mini | Paid |
+| LLM (optional) | Anthropic Claude 3.5 Haiku | Paid |
+| Agent Framework | [LangChain](https://python.langchain.com/) 0.3 | Free / open source |
+| Backend | [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) | Free / open source |
+| Frontend | Vanilla HTML/CSS/JS — single static file | Free |
+| Data | Static mock JSON files | Free |
 | Deployment | [Render](https://render.com/) free web service | Free tier |
-| Optional LLMs | Google Gemini 1.5 Flash, OpenAI GPT-4o Mini | Paid (bring your own key) |
+
+> **Any LangChain-compatible model works.** The provider is selected by which API key(s) you set in `.env` — no code changes required.
 
 ---
 
@@ -127,15 +133,18 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Open `.env` and add your Groq API key. Get one for free at [console.groq.com](https://console.groq.com/) — no credit card required.
+Open `.env` and add your API key. **Google Gemini is recommended** — it has a genuine free tier (1,500 requests/day, no credit card required).
 
 ```dotenv
 # .env
-GROQ_API_KEY=gsk_your_key_here
 
-# Optional — uncomment to enable paid providers
-# GOOGLE_API_KEY=your_gemini_key
-# OPENAI_API_KEY=your_openai_key
+# Recommended: Gemini free tier — https://aistudio.google.com/apikey
+GOOGLE_API_KEY=your_gemini_key_here
+
+# Any of these also work (set as many as you want — all appear in the UI):
+# GROQ_API_KEY=...       ⚠ pay-as-you-go, no free tier
+# OPENAI_API_KEY=...     paid
+# ANTHROPIC_API_KEY=...  paid
 ```
 
 ### 5. Start the Server
@@ -167,13 +176,14 @@ Try a prompt like:
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `GROQ_API_KEY` | **Yes** | Groq API key for LLaMA 3.1 70B. Free at [console.groq.com](https://console.groq.com/) |
-| `GOOGLE_API_KEY` | No | Google AI Studio key for Gemini 1.5 Flash. Enables the `gemini` provider |
-| `OPENAI_API_KEY` | No | OpenAI key for GPT-4o Mini. Enables the `openai` provider |
+| Variable | Provider | Cost | Description |
+|---|---|---|---|
+| `GOOGLE_API_KEY` | Gemini 1.5 Flash | **Free** (1,500 req/day) | Get at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — no credit card needed. **Recommended default.** |
+| `GROQ_API_KEY` | Groq LLaMA 3.1 70B | Pay-as-you-go | ⚠ **No free tier** — requires a prepaid balance at [console.groq.com](https://console.groq.com) |
+| `OPENAI_API_KEY` | GPT-4o Mini | Paid | [platform.openai.com](https://platform.openai.com) |
+| `ANTHROPIC_API_KEY` | Claude 3.5 Haiku | Paid | [console.anthropic.com](https://console.anthropic.com) |
 
-The app checks for these keys at startup. If `GROQ_API_KEY` is missing and no other provider key is set, the server will raise a `RuntimeError` and refuse to start. At least one key must be present.
+Set **at least one** key. The app auto-detects all configured keys at startup and populates the provider dropdown — priority order: Gemini → Groq → OpenAI → Anthropic.
 
 ---
 
@@ -307,9 +317,9 @@ In the Render dashboard for your service, go to **Environment** and add:
 
 | Key | Value |
 |---|---|
-| `GROQ_API_KEY` | Your key from [console.groq.com](https://console.groq.com/) |
+| `GOOGLE_API_KEY` | Your free Gemini key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 
-> `render.yaml` marks `GROQ_API_KEY` as `sync: false`, meaning it is never committed to source control and must be set manually in the Render dashboard.
+You can add `GROQ_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY` in the same way to enable those providers too.
 
 ### 4. Deploy
 
@@ -323,35 +333,39 @@ https://vacation-planner.onrender.com
 
 ---
 
-## Adding Paid LLM Providers
+## Adding or Switching LLM Providers
 
-The provider system auto-detects API keys at startup — no code changes needed.
+The provider system auto-detects API keys at startup — **no code changes needed**. Just add a key to `.env` and reinstall if needed.
 
-### Google Gemini (Gemini 1.5 Flash)
+### Google Gemini (Default — Free)
 
-1. Uncomment the package in `requirements.txt`:
-   ```
-   langchain-google-genai==2.0.11
-   ```
-2. Reinstall: `pip install -r requirements.txt`
-3. Add to `.env`:
-   ```dotenv
-   GOOGLE_API_KEY=your_key_here
-   ```
+Already included in `requirements.txt`. Just set:
+```dotenv
+GOOGLE_API_KEY=your_key_here
+```
+Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
+
+### Groq (LLaMA 3.1 70B)
+
+> ⚠ **Groq has no free tier.** Despite the fast sign-up flow, API calls require a prepaid balance. Previous promotional credits are no longer offered.
+
+1. Uncomment in `requirements.txt`: `langchain-groq==0.3.2`
+2. `pip install -r requirements.txt`
+3. Set `GROQ_API_KEY=...` in `.env`
 
 ### OpenAI (GPT-4o Mini)
 
-1. Uncomment the package in `requirements.txt`:
-   ```
-   langchain-openai==0.2.14
-   ```
-2. Reinstall: `pip install -r requirements.txt`
-3. Add to `.env`:
-   ```dotenv
-   OPENAI_API_KEY=your_key_here
-   ```
+1. Uncomment in `requirements.txt`: `langchain-openai==0.2.14`
+2. `pip install -r requirements.txt`
+3. Set `OPENAI_API_KEY=...` in `.env`
 
-Once the key is present and the package installed, the provider appears in the **AI Model** dropdown in the sidebar (populated via `GET /api/health`). The `AgentExecutor` for each provider is built lazily on first use and cached for subsequent requests.
+### Anthropic (Claude 3.5 Haiku)
+
+1. Uncomment in `requirements.txt`: `langchain-anthropic==0.3.15`
+2. `pip install -r requirements.txt`
+3. Set `ANTHROPIC_API_KEY=...` in `.env`
+
+Once a key is present and the package installed, the provider appears automatically in the **AI Model** dropdown in the sidebar.
 
 ---
 

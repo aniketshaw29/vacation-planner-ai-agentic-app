@@ -34,7 +34,7 @@ class UserPreferences(BaseModel):
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=2000)
     session_id: str = Field(..., min_length=1, max_length=100)
-    provider: str = "groq"
+    provider: str = "gemini"
     preferences: UserPreferences = Field(default_factory=UserPreferences)
 
 
@@ -43,11 +43,14 @@ class ChatRequest(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Validate at least one provider is configured
-    from agent.providers import available_providers
+    from agent.providers import available_providers, default_provider
     providers = available_providers()
     if not providers:
-        raise RuntimeError("No API key configured. Set GROQ_API_KEY (or GOOGLE_API_KEY / OPENAI_API_KEY) in .env")
-    print(f"✓ Vacation Planner started | Available providers: {providers}")
+        raise RuntimeError(
+            "No LLM API key found. Set at least one of: "
+            "GOOGLE_API_KEY, GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY in .env"
+        )
+    print(f"✓ Vacation Planner started | Available providers: {providers} | Default: {default_provider()}")
 
     # Pre-load tools to catch import errors at startup
     from tools import ALL_TOOLS
@@ -57,7 +60,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Vacation Planner AI",
-    description="AI-powered vacation planner with Groq + LangChain",
+    description="AI-powered vacation planner — connect any LLM (Gemini, Groq, OpenAI, Anthropic)",
     version="1.0.0",
     lifespan=lifespan,
 )
