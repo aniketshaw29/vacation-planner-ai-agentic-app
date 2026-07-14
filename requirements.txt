@@ -1,7 +1,7 @@
 # Core
 fastapi==0.115.0
 uvicorn[standard]==0.34.0
-langchain==0.3.26
+langchain==1.3.9
 langchain-core==0.3.62
 langchain-google-genai==2.0.11   # default provider (Gemini free tier)
 pydantic==2.11.7
