@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✈ Vacation Planner AI</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #23273a;
+    --border: #2e3347;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --accent-hover: #4f52d3;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --card: #1e2235;
+    --sidebar-w: 300px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Header ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .logo { font-size: 22px; font-weight: 700; color: var(--accent2); letter-spacing: -0.5px; }
+  .logo span { color: var(--text2); font-weight: 400; font-size: 14px; margin-left: 4px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .provider-badge { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text2); }
+  .btn { padding: 7px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg3); color: var(--text); font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .btn:hover { background: var(--border); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+
+  /* ── Layout ── */
+  .app-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .sidebar-header {
+    padding: 14px 16px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+  .pref-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .pref-section-title { font-size: 12px; font-weight: 600; color: var(--accent2); margin-bottom: 12px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px; }
+  .pref-row { margin-bottom: 12px; }
+  .pref-label { font-size: 12px; color: var(--text2); margin-bottom: 5px; display: flex; justify-content: space-between; }
+  .pref-label .pref-val { color: var(--text); font-weight: 600; }
+
+  /* Range slider */
+  input[type=range] { width: 100%; height: 4px; -webkit-appearance: none; background: var(--border); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--bg2); }
+  input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--bg2); }
+
+  /* Number input */
+  .number-input { display: flex; align-items: center; gap: 0; }
+  .number-input button { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--bg3); color: var(--text); cursor: pointer; font-size: 16px; border-radius: 4px; transition: background 0.15s; line-height: 1; }
+  .number-input button:hover { background: var(--border); }
+  .number-input input { width: 50px; height: 28px; border: 1px solid var(--border); background: var(--bg); color: var(--text); text-align: center; font-size: 14px; font-weight: 600; border-radius: 0; }
+
+  /* Chip toggles */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg3); color: var(--text2); font-size: 12px; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .chip:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
+
+  /* Radio group */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .radio-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg3); color: var(--text2); font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .radio-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* Text input */
+  .pref-input { width: 100%; padding: 7px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; outline: none; transition: border 0.15s; }
+  .pref-input:focus { border-color: var(--accent); }
+
+  /* Select */
+  select.pref-input { cursor: pointer; }
+
+  .sidebar-footer { padding: 14px 16px; margin-top: auto; }
+
+  /* ── Main area ── */
+  #main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Messages */
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  #messages::-webkit-scrollbar { width: 4px; }
+  #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .msg.user .msg-avatar { background: var(--accent); color: white; }
+  .msg.ai .msg-avatar { background: var(--bg3); border: 1px solid var(--border); }
+  .msg-content { max-width: 75%; }
+  .msg-bubble {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .msg.user .msg-bubble { background: var(--accent); color: white; border-bottom-right-radius: 4px; }
+  .msg.ai .msg-bubble { background: var(--bg3); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .msg-time { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .msg.user .msg-time { text-align: right; }
+
+  /* Tool call indicator */
+  .tool-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2);
+    margin: 4px 0;
+  }
+  .tool-call .spinner { width: 12px; height: 12px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .tool-call.done { border-color: var(--success); color: var(--success); }
+  .tool-call.done .spinner { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Typing cursor */
+  .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent2); margin-left: 2px; animation: blink 1s infinite; vertical-align: middle; }
+  @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
+
+  /* Welcome screen */
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 60px 20px;
+    text-align: center;
+    flex: 1;
+  }
+  .welcome-icon { font-size: 64px; }
+  .welcome h2 { font-size: 24px; font-weight: 700; color: var(--text); }
+  .welcome p { color: var(--text2); font-size: 15px; max-width: 480px; line-height: 1.6; }
+  .welcome-prompts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 600px; }
+  .prompt-chip {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .prompt-chip:hover { border-color: var(--accent); color: var(--text); background: var(--bg2); }
+
+  /* Result panels */
+  #panels { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 12px; overflow-x: hidden; }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .panel-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .panel-body { padding: 16px; }
+  .panel-toggle { color: var(--text3); font-size: 18px; transition: transform 0.2s; }
+  .panel.collapsed .panel-body { display: none; }
+  .panel.collapsed .panel-toggle { transform: rotate(-90deg); }
+
+  /* Destination cards */
+  .dest-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .dest-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .dest-card:hover { border-color: var(--accent); }
+  .dest-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .dest-name { font-weight: 700; font-size: 15px; }
+  .dest-country { font-size: 12px; color: var(--text2); }
+  .match-badge { background: var(--accent); color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .dest-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+  .dest-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .dest-tag { padding: 2px 7px; border-radius: 4px; background: var(--bg); font-size: 11px; color: var(--text3); border: 1px solid var(--border); }
+  .dest-cost { font-size: 12px; color: var(--success); margin-top: 8px; }
+
+  /* Itinerary timeline */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-day { margin-bottom: 16px; }
+  .day-header { font-size: 13px; font-weight: 700; color: var(--accent2); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+  .day-slots { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .slot-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; }
+  .slot-label { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+  .slot-time { font-size: 11px; color: var(--accent2); margin-bottom: 4px; }
+  .slot-place { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .slot-note { font-size: 11px; color: var(--text2); line-height: 1.4; }
+  .slot-cost { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* Route map */
+  .route-list { display: flex; flex-direction: column; gap: 8px; }
+  .route-stop {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .route-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .route-info { flex: 1; }
+  .route-name { font-size: 13px; font-weight: 600; }
+  .route-meta { font-size: 11px; color: var(--text2); display: flex; gap: 10px; flex-wrap: wrap; margin-top: 3px; }
+  .route-transit { font-size: 11px; color: var(--text3); margin-top: 3px; font-style: italic; }
+  .route-connector { width: 28px; height: 16px; display: flex; justify-content: center; }
+  .route-connector::after { content: ""; width: 2px; background: var(--border); height: 100%; }
+
+  /* Budget table */
+  .budget-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+  .budget-stat { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .budget-stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.3px; }
+  .budget-stat-val { font-size: 20px; font-weight: 700; color: var(--text); }
+  .budget-stat-sub { font-size: 11px; color: var(--text2); }
+  .budget-breakdown { display: flex; flex-direction: column; gap: 6px; }
+  .budget-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .budget-row:last-child { border-bottom: none; font-weight: 700; }
+  .budget-bar-wrap { margin-top: 12px; }
+  .budget-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; }
+  .budget-bar-label { width: 130px; color: var(--text2); }
+  .budget-bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .budget-bar-fill { height: 100%; border-radius: 4px; background: var(--accent); }
+  .budget-tip { padding: 8px 12px; background: var(--bg3); border-left: 3px solid var(--warning); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 12px; color: var(--text2); margin-top: 6px; }
+
+  /* Food cards */
+  .food-tier-title { font-size: 13px; font-weight: 600; color: var(--accent2); margin: 12px 0 8px; }
+  .food-tier-title:first-child { margin-top: 0; }
+  .food-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .food-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; }
+  .food-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .food-cuisine { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+  .food-specialty { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+  .food-cost { font-size: 12px; color: var(--success); font-weight: 600; }
+  .food-hours { font-size: 11px; color: var(--text3); }
+  .food-must-try { margin-top: 6px; font-size: 11px; color: var(--accent2); }
+  .reservation-badge { display: inline-block; padding: 2px 6px; background: var(--warning); color: #000; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 4px; }
+
+  /* Transport table */
+  .transport-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .transport-table th { text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text3); border-bottom: 1px solid var(--border); }
+  .transport-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .transport-table tr:last-child td { border-bottom: none; }
+  .transport-table tr:hover td { background: var(--bg3); }
+  .stars { color: var(--warning); font-size: 12px; }
+
+  /* Input bar */
+  #input-bar {
+    padding: 14px 20px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  #user-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    max-height: 120px;
+    min-height: 42px;
+    transition: border 0.15s;
+    line-height: 1.5;
+    font-family: inherit;
+  }
+  #user-input:focus { border-color: var(--accent); }
+  #user-input::placeholder { color: var(--text3); }
+  #send-btn {
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    height: 42px;
+    white-space: nowrap;
+  }
+  #send-btn:hover:not(:disabled) { background: var(--accent-hover); }
+  #send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .input-hint { font-size: 11px; color: var(--text3); margin-top: 6px; }
+
+  /* Loading dots */
+  .loading-dots span { animation: loadingDot 1.4s infinite; display: inline-block; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes loadingDot { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    #sidebar { display: none; }
+    .day-slots { grid-template-columns: 1fr; }
+    .budget-summary { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <div class="logo">✈ VacationAI <span>powered by Groq + LangChain</span></div>
+  </div>
+  <div class="header-actions">
+    <span class="provider-badge" id="provider-badge">🤖 groq</span>
+    <button class="btn btn-sm" id="clear-btn" onclick="clearChat()">New Chat</button>
+  </div>
+</header>
+
+<!-- App body -->
+<div class="app-body">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sidebar-header">⚙ Trip Preferences</div>
+
+    <!-- AI Model -->
+    <div class="pref-section">
+      <div class="pref-section-title">🤖 AI Model</div>
+      <div class="pref-row">
+        <div class="pref-label">Provider</div>
+        <select class="pref-input" id="pref-provider" onchange="onProviderChange(this.value)">
+          <option value="groq">Groq — Llama 3.1 70B (Free)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Trip Basics -->
+    <div class="pref-section">
+      <div class="pref-section-title">✈ Trip Basics</div>
+      <div class="pref-row">
+        <div class="pref-label">Total Budget <span class="pref-val" id="budget-label">$3,000</span></div>
+        <input type="range" id="pref-budget" min="500" max="15000" step="100" value="3000" oninput="onBudgetChange(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:3px"><span>$500</span><span>$15,000</span></div>
+      </div>
+      <div class="pref-row">
+        <div class="pref-label">Duration <span class="pref-val" id="duration-label">7 days</span></div>
+        <div class="number-input">
+          <button onclick="adjustNumber('pref-duration', -1, 1, 30, 'duration-label', ' days')">−</button>
+          <input type="number" id="pref-duration" value="7" min="1" max="30" oninput="document.getElementById('duration-label').textContent=this.value+' days'">
+          <button onclick="adjustNumber('pref-duration', 1, 1, 30, 'duration-label', ' days')">+</button>
+        </div>
+      </div>
+      <div class="pref-row">
+        <div class="pref-label">Group Size <span class="pref-val" id="group-label">2 people</span></div>
+        <div class="number-input">
+          <button onclick="adjustNumber('pref-group', -1, 1, 20, 'group-label', ' people')">−</button>
+          <input type="number" id="pref-group" value="2" min="1" max="20" oninput="document.getElementById('group-label').textContent=this.value+' people'">
+          <button onclick="adjustNumber('pref-group', 1, 1, 20, 'group-label', ' people')">+</button>
+        </div>
+      </div>
+      <div class="pref-row">
+        <div class="pref-label">Origin City</div>
+        <input type="text" class="pref-input" id="pref-origin" value="New York" placeholder="City you're flying from">
+      </div>
+    </div>
+
+    <!-- Season -->
+    <div class="pref-section">
+      <div class="pref-section-title">🌤 Season & Timing</div>
+      <div class="pref-row">
+        <div class="pref-label">Travel Season</div>
+        <div class="radio-group" id="pref-season">
+          <div class="radio-btn" data-val="spring" onclick="selectRadio('pref-season',this)">🌸 Spring</div>
+          <div class="radio-btn active" data-val="summer" onclick="selectRadio('pref-season',this)">☀ Summer</div>
+          <div class="radio-btn" data-val="autumn" onclick="selectRadio('pref-season',this)">🍂 Autumn</div>
+          <div class="radio-btn" data-val="winter" onclick="selectRadio('pref-season',this)">❄ Winter</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Travel Style -->
+    <div class="pref-section">
+      <div class="pref-section-title">🎒 Travel Style</div>
+      <div class="pref-row">
+        <div class="pref-label">Interests (select all that apply)</div>
+        <div class="chips" id="pref-style">
+          <div class="chip" data-val="beach" onclick="toggleChip(this)">🏖 Beach</div>
+          <div class="chip active" data-val="cultural" onclick="toggleChip(this)">🏛 Cultural</div>
+          <div class="chip" data-val="adventure" onclick="toggleChip(this)">🧗 Adventure</div>
+          <div class="chip active" data-val="foodie" onclick="toggleChip(this)">🍜 Foodie</div>
+          <div class="chip" data-val="relaxation" onclick="toggleChip(this)">🧘 Relaxation</div>
+          <div class="chip" data-val="nature" onclick="toggleChip(this)">🌿 Nature</div>
+          <div class="chip" data-val="city" onclick="toggleChip(this)">🏙 City</div>
+          <div class="chip" data-val="romance" onclick="toggleChip(this)">💕 Romance</div>
+          <div class="chip" data-val="nightlife" onclick="toggleChip(this)">🎉 Nightlife</div>
+          <div class="chip" data-val="budget" onclick="toggleChip(this)">💰 Budget</div>
+          <div class="chip" data-val="luxury" onclick="toggleChip(this)">💎 Luxury</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accommodation -->
+    <div class="pref-section">
+      <div class="pref-section-title">🏨 Accommodation</div>
+      <div class="pref-row">
+        <div class="pref-label">Type</div>
+        <div class="radio-group" id="pref-accommodation">
+          <div class="radio-btn active" data-val="hotel" onclick="selectRadio('pref-accommodation',this)">Hotel</div>
+          <div class="radio-btn" data-val="hostel" onclick="selectRadio('pref-accommodation',this)">Hostel</div>
+          <div class="radio-btn" data-val="airbnb" onclick="selectRadio('pref-accommodation',this)">Airbnb</div>
+          <div class="radio-btn" data-val="resort" onclick="selectRadio('pref-accommodation',this)">Resort</div>
+          <div class="radio-btn" data-val="boutique" onclick="selectRadio('pref-accommodation',this)">Boutique</div>
+          <div class="radio-btn" data-val="villa" onclick="selectRadio('pref-accommodation',this)">Villa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Food -->
+    <div class="pref-section">
+      <div class="pref-section-title">🍽 Food & Dining</div>
+      <div class="pref-row">
+        <div class="pref-label">Price Tier</div>
+        <div class="chips" id="pref-food-tier">
+          <div class="chip active" data-val="street_food" onclick="toggleChip(this)">🛒 Street Food</div>
+          <div class="chip" data-val="budget" onclick="toggleChip(this)">💵 Budget</div>
+          <div class="chip active" data-val="mid_range" onclick="toggleChip(this)">🍽 Mid-Range</div>
+          <div class="chip" data-val="fine_dining" onclick="toggleChip(this)">⭐ Fine Dining</div>
+        </div>
+      </div>
+      <div class="pref-row">
+        <div class="pref-label">Dietary Restrictions</div>
+        <div class="radio-group" id="pref-dietary">
+          <div class="radio-btn active" data-val="none" onclick="selectRadio('pref-dietary',this)">None</div>
+          <div class="radio-btn" data-val="vegetarian" onclick="selectRadio('pref-dietary',this)">Vegetarian</div>
+          <div class="radio-btn" data-val="vegan" onclick="selectRadio('pref-dietary',this)">Vegan</div>
+          <div class="radio-btn" data-val="halal" onclick="selectRadio('pref-dietary',this)">Halal</div>
+          <div class="radio-btn" data-val="gluten_free" onclick="selectRadio('pref-dietary',this)">Gluten-Free</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transport -->
+    <div class="pref-section">
+      <div class="pref-section-title">🚗 Transport Modes</div>
+      <div class="pref-row">
+        <div class="pref-label">Preferred modes (for comparisons)</div>
+        <div class="chips" id="pref-transport">
+          <div class="chip active" data-val="flight" onclick="toggleChip(this)">✈ Flight</div>
+          <div class="chip active" data-val="train" onclick="toggleChip(this)">🚂 Train</div>
+          <div class="chip active" data-val="bus" onclick="toggleChip(this)">🚌 Bus</div>
+          <div class="chip active" data-val="scooter" onclick="toggleChip(this)">🛵 Scooter</div>
+          <div class="chip active" data-val="bicycle" onclick="toggleChip(this)">🚲 Bicycle</div>
+          <div class="chip active" data-val="car" onclick="toggleChip(this)">🚗 Car</div>
+          <div class="chip" data-val="taxi" onclick="toggleChip(this)">🚕 Taxi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-primary" style="width:100%" onclick="sendPreferenceUpdate()">
+        Apply Preferences & Chat
+      </button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div id="main">
+    <div id="messages">
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon">🌍</div>
+        <h2>Your AI Vacation Planner</h2>
+        <p>Powered by Groq (free) + LangChain. Configure your preferences on the left, or just start chatting!</p>
+        <div class="welcome-prompts">
+          <div class="prompt-chip" onclick="usePrompt(this)">Plan a beach vacation for 2</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on $2000?</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Best destinations for solo travel in Asia</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Plan Bali trip with full itinerary and budget</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Compare scooter vs taxi in Bangkok for 5 days</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Best street food cities under $50/day</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Plan a romantic trip to Paris for a week</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Northern Lights trip to Iceland — costs and timing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result panels (appended dynamically) -->
+    <div id="panels"></div>
+
+    <!-- Input bar -->
+    <div id="input-bar">
+      <textarea id="user-input" placeholder="Ask anything — where to go, what to do, how much it'll cost..." rows="1"
+        onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendMessage()}"
+        oninput="autoResize(this)"></textarea>
+      <button id="send-btn" onclick="sendMessage()">Send ↑</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────
+const state = {
+  sessionId: 'session-' + Math.random().toString(36).slice(2),
+  isStreaming: false,
+  currentAiBubble: null,
+  currentAiText: '',
+  activeToolCalls: {},
+  providers: ['groq'],
+};
+
+// ─────────────────────────────────────────────
+// Sidebar helpers
+// ─────────────────────────────────────────────
+function toggleChip(el) {
+  el.classList.toggle('active');
+}
+function selectRadio(groupId, el) {
+  document.querySelectorAll(`#${groupId} .radio-btn`).forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function adjustNumber(inputId, delta, min, max, labelId, suffix) {
+  const input = document.getElementById(inputId);
+  const val = Math.min(max, Math.max(min, parseInt(input.value) + delta));
+  input.value = val;
+  document.getElementById(labelId).textContent = val + suffix;
+}
+function onBudgetChange(val) {
+  const n = parseInt(val);
+  document.getElementById('budget-label').textContent = '$' + n.toLocaleString();
+}
+function onProviderChange(val) {
+  document.getElementById('provider-badge').textContent = '🤖 ' + val;
+}
+
+function getActiveVals(groupId) {
+  return Array.from(document.querySelectorAll(`#${groupId} .chip.active, #${groupId} .radio-btn.active`))
+    .map(el => el.dataset.val);
+}
+function getRadioVal(groupId) {
+  const el = document.querySelector(`#${groupId} .radio-btn.active`);
+  return el ? el.dataset.val : '';
+}
+
+function collectPreferences() {
+  return {
+    budget_usd: parseInt(document.getElementById('pref-budget').value),
+    trip_duration_days: parseInt(document.getElementById('pref-duration').value),
+    group_size: parseInt(document.getElementById('pref-group').value),
+    origin_city: document.getElementById('pref-origin').value || 'New York',
+    season: getRadioVal('pref-season') || 'summer',
+    travel_style: getActiveVals('pref-style').join(',') || 'balanced',
+    accommodation_type: getRadioVal('pref-accommodation') || 'hotel',
+    food_tier: getActiveVals('pref-food-tier'),
+    dietary_restrictions: getRadioVal('pref-dietary') || 'none',
+    transport_modes: getActiveVals('pref-transport'),
+  };
+}
+
+// ─────────────────────────────────────────────
+// Health check — load available providers
+// ─────────────────────────────────────────────
+async function loadProviders() {
+  try {
+    const res = await fetch('/api/health');
+    const data = await res.json();
+    const sel = document.getElementById('pref-provider');
+    sel.innerHTML = '';
+    const labels = { groq: 'Groq — Llama 3.1 70B (Free)', gemini: 'Gemini 1.5 Flash (Paid)', openai: 'GPT-4o Mini (Paid)' };
+    (data.providers || ['groq']).forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p;
+      opt.textContent = labels[p] || p;
+      sel.appendChild(opt);
+    });
+    state.providers = data.providers || ['groq'];
+  } catch(e) {}
+}
+
+// ─────────────────────────────────────────────
+// Chat
+// ─────────────────────────────────────────────
+function usePrompt(el) {
+  document.getElementById('user-input').value = el.textContent;
+  sendMessage();
+}
+function sendPreferenceUpdate() {
+  const prefs = collectPreferences();
+  const parts = [];
+  parts.push(`Budget: $${prefs.budget_usd}`);
+  parts.push(`Duration: ${prefs.trip_duration_days} days`);
+  parts.push(`Group: ${prefs.group_size} people`);
+  parts.push(`Season: ${prefs.season}`);
+  parts.push(`Style: ${prefs.travel_style}`);
+  document.getElementById('user-input').value = `I've updated my preferences — ${parts.join(', ')}. What would you suggest?`;
+  sendMessage();
+}
+function clearChat() {
+  document.getElementById('messages').innerHTML = `<div class="welcome" id="welcome">
+    <div class="welcome-icon">🌍</div>
+    <h2>Your AI Vacation Planner</h2>
+    <p>Powered by Groq (free) + LangChain. Configure your preferences on the left, or just start chatting!</p>
+    <div class="welcome-prompts">
+      <div class="prompt-chip" onclick="usePrompt(this)">Plan a beach vacation for 2</div>
+      <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on $2000?</div>
+      <div class="prompt-chip" onclick="usePrompt(this)">Plan Bali trip with full itinerary and budget</div>
+      <div class="prompt-chip" onclick="usePrompt(this)">Best street food cities under $50/day</div>
+    </div>
+  </div>`;
+  document.getElementById('panels').innerHTML = '';
+  state.sessionId = 'session-' + Math.random().toString(36).slice(2);
+  fetch(`/api/session/${state.sessionId}`, { method: 'DELETE' }).catch(() => {});
+}
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function addMessage(role, text) {
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.remove();
+
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = role === 'user' ? '👤' : '✈';
+
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+  content.appendChild(bubble);
+  content.appendChild(time);
+  div.appendChild(avatar);
+  div.appendChild(content);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  return bubble;
+}
+
+function addToolIndicator(toolName) {
+  if (!state.currentAiBubble) return;
+  const friendly = toolName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const icons = {
+    'suggest destinations': '🌍', 'build itinerary': '📅', 'search flights': '✈',
+    'search hotels': '🏨', 'plan route': '🗺', 'compare travel modes': '🚗',
+    'estimate rental costs': '🛵', 'suggest food': '🍽', 'calculate budget breakdown': '💰',
+  };
+  const icon = icons[friendly.toLowerCase()] || '🔧';
+  const el = document.createElement('div');
+  el.className = 'tool-call';
+  el.id = 'tool-' + toolName;
+  el.innerHTML = `<div class="spinner"></div> ${icon} ${friendly}…`;
+  state.currentAiBubble.parentNode.insertBefore(el, state.currentAiBubble);
+  state.activeToolCalls[toolName] = el;
+}
+
+function finishToolIndicator(toolName) {
+  const el = state.activeToolCalls[toolName];
+  if (el) {
+    el.classList.add('done');
+    el.innerHTML = `✓ ${el.textContent.trim().replace(/…$/, '')}`;
+  }
+}
+
+async function sendMessage() {
+  if (state.isStreaming) return;
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  state.isStreaming = true;
+
+  addMessage('user', text);
+
+  // Create AI bubble
+  const aiBubble = addMessage('ai', '');
+  aiBubble.innerHTML = '<div class="loading-dots"><span>●</span><span>●</span><span>●</span></div>';
+  state.currentAiBubble = aiBubble;
+  state.currentAiText = '';
+  state.activeToolCalls = {};
+
+  const prefs = collectPreferences();
+  const provider = document.getElementById('pref-provider').value || 'groq';
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        session_id: state.sessionId,
+        provider,
+        preferences: prefs,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({detail: response.statusText}));
+      aiBubble.textContent = `Error: ${err.detail || 'Something went wrong'}`;
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const evt = JSON.parse(line.slice(6));
+          handleSSEEvent(evt);
+        } catch(e) {}
+      }
+    }
+  } catch(e) {
+    if (aiBubble.textContent.includes('●')) {
+      aiBubble.textContent = 'Connection error. Is the server running?';
+    }
+  } finally {
+    state.isStreaming = false;
+    document.getElementById('send-btn').disabled = false;
+    // Remove typing cursor
+    const cursor = state.currentAiBubble?.querySelector('.cursor');
+    if (cursor) cursor.remove();
+    // Parse and render structured data from final text
+    if (state.currentAiText) {
+      renderStructuredData(state.currentAiText);
+    }
+  }
+}
+
+function handleSSEEvent(evt) {
+  const msgs = document.getElementById('messages');
+
+  if (evt.type === 'token') {
+    if (state.currentAiBubble.querySelector('.loading-dots')) {
+      state.currentAiBubble.innerHTML = '';
+    }
+    state.currentAiText += evt.content;
+    // Show clean text (strip XML data tags for display)
+    const displayText = state.currentAiText
+      .replace(/<(destinations|itinerary|route|budget|food|transport)_data>[\s\S]*?<\/\1_data>/g, '')
+      .trim();
+    state.currentAiBubble.textContent = displayText;
+    // Add blinking cursor at end
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    state.currentAiBubble.appendChild(cursor);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  else if (evt.type === 'tool_start') {
+    if (state.currentAiBubble.querySelector('.loading-dots')) {
+      state.currentAiBubble.innerHTML = '';
+    }
+    addToolIndicator(evt.tool);
+  }
+
+  else if (evt.type === 'tool_end') {
+    finishToolIndicator(evt.tool);
+  }
+
+  else if (evt.type === 'error') {
+    state.currentAiBubble.textContent = `⚠ ${evt.message}`;
+  }
+
+  else if (evt.type === 'done') {
+    // handled in finally block
+  }
+}
+
+// ─────────────────────────────────────────────
+// Structured data rendering
+// ─────────────────────────────────────────────
+function extractTag(text, tag) {
+  const re = new RegExp(`<${tag}_data>([\\s\\S]*?)<\\/${tag}_data>`);
+  const m = text.match(re);
+  if (!m) return null;
+  try { return JSON.parse(m[1]); } catch(e) { return null; }
+}
+
+function renderStructuredData(text) {
+  const panels = document.getElementById('panels');
+
+  const destinations = extractTag(text, 'destinations');
+  if (destinations) renderDestinations(destinations);
+
+  const itinerary = extractTag(text, 'itinerary');
+  if (itinerary) renderItinerary(itinerary);
+
+  const route = extractTag(text, 'route');
+  if (route) renderRoute(route);
+
+  const budget = extractTag(text, 'budget');
+  if (budget) renderBudget(budget);
+
+  const food = extractTag(text, 'food');
+  if (food) renderFood(food);
+
+  const transport = extractTag(text, 'transport');
+  if (transport) renderTransport(transport);
+}
+
+function makePanel(title, icon, content) {
+  const panels = document.getElementById('panels');
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+  panel.innerHTML = `
+    <div class="panel-header" onclick="this.parentElement.classList.toggle('collapsed')">
+      <div class="panel-title">${icon} ${title}</div>
+      <span class="panel-toggle">▾</span>
+    </div>
+    <div class="panel-body">${content}</div>
+  `;
+  panels.appendChild(panel);
+  panels.scrollTop = 0;
+  return panel;
+}
+
+function renderDestinations(data) {
+  if (!Array.isArray(data) || !data.length) return;
+  let html = '<div class="dest-cards">';
+  data.forEach(d => {
+    const tags = (d.known_for || d.highlights || []).slice(0, 3).map(t => `<span class="dest-tag">${t}</span>`).join('');
+    const costRange = d.estimated_daily_cost_usd;
+    const costStr = costRange ? `From $${costRange.budget || '?'}/day` : '';
+    html += `
+      <div class="dest-card" onclick="destinationClick('${d.name}')">
+        <div class="dest-card-header">
+          <div>
+            <div class="dest-name">${d.name}</div>
+            <div class="dest-country">📍 ${d.country}</div>
+          </div>
+          <div class="match-badge">${d.match_score}%</div>
+        </div>
+        <div class="dest-desc">${(d.description || '').slice(0, 100)}…</div>
+        <div class="dest-tags">${tags}</div>
+        ${costStr ? `<div class="dest-cost">${costStr} (budget tier)</div>` : ''}
+        ${d.insider_tip ? `<div class="dest-tag" style="margin-top:6px;color:var(--warning);border-color:var(--warning)">💡 ${d.insider_tip.slice(0,70)}…</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  makePanel(`${data.length} Destinations Found`, '🌍', html);
+}
+
+function destinationClick(name) {
+  document.getElementById('user-input').value = `Tell me more about ${name} — build a full itinerary and show me flights and hotels`;
+  document.getElementById('user-input').focus();
+}
+
+function renderItinerary(data) {
+  if (!Array.isArray(data) || !data.length) return;
+  let html = '<div class="timeline">';
+  data.forEach(day => {
+    const slots = [
+      { label: '🌅 Morning', key: 'morning' },
+      { label: '☀ Afternoon', key: 'afternoon' },
+      { label: '🌙 Evening', key: 'evening' },
+    ];
+    html += `<div class="timeline-day">
+      <div class="day-header"><span>Day ${day.day} — ${day.theme || ''}</span><span style="color:var(--text3);font-weight:400">Est. $${day.daily_cost_estimate_usd || 0}</span></div>
+      <div class="day-slots">`;
+    slots.forEach(s => {
+      const slot = day[s.key] || {};
+      html += `<div class="slot-card">
+        <div class="slot-label">${s.label}</div>
+        <div class="slot-time">${slot.time || ''}</div>
+        <div class="slot-place">${slot.place || slot.activity || 'Free time'}</div>
+        <div class="slot-note">${(slot.notes || '').slice(0, 80)}</div>
+        ${slot.cost_usd ? `<div class="slot-cost">💵 $${slot.cost_usd}</div>` : ''}
+      </div>`;
+    });
+    html += '</div></div>';
+  });
+  html += '</div>';
+  makePanel(`${data.length}-Day Itinerary`, '📅', html);
+}
+
+function renderRoute(data) {
+  if (!data) return;
+  const route = data.route || data;
+  if (!Array.isArray(route) || !route.length) return;
+  let html = `<div style="margin-bottom:12px;color:var(--text2);font-size:13px">${data.summary || `${route.length} stops planned`} | Start: ${data.start_time || '08:30'}</div>`;
+  html += '<div class="route-list">';
+  route.forEach((stop, i) => {
+    html += `
+      <div class="route-stop">
+        <div>
+          <div class="route-number">${stop.order}</div>
+          ${i < route.length - 1 ? '<div class="route-connector"></div>' : ''}
+        </div>
+        <div class="route-info">
+          <div class="route-name">${stop.place}</div>
+          <div class="route-meta">
+            <span>🕐 Arrive ${stop.arrive}</span>
+            <span>⏱ ${stop.duration_hours}h</span>
+            <span>🏘 ${stop.neighborhood || ''}</span>
+            ${stop.entrance_fee_usd ? `<span>💵 $${stop.entrance_fee_usd}</span>` : ''}
+          </div>
+          ${stop.transit_from_prev && stop.transit_from_prev !== 'Start here' ? `<div class="route-transit">↑ ${stop.transit_from_prev}</div>` : ''}
+          ${stop.timing_advice ? `<div class="route-transit" style="color:var(--warning)">${stop.timing_advice}</div>` : ''}
+          ${stop.notes ? `<div class="route-transit">${stop.notes.slice(0,80)}</div>` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  makePanel('Optimized Route', '🗺', html);
+}
+
+function renderBudget(data) {
+  if (!data || typeof data !== 'object') return;
+  const b = data.breakdown || {};
+  const total = data.total_usd || 0;
+
+  let summaryHtml = `<div class="budget-summary">
+    <div class="budget-stat">
+      <div class="budget-stat-label">Total Trip</div>
+      <div class="budget-stat-val">$${(data.total_usd || 0).toLocaleString()}</div>
+      <div class="budget-stat-sub">${data.num_people || 2} people</div>
+    </div>
+    <div class="budget-stat">
+      <div class="budget-stat-label">Per Person</div>
+      <div class="budget-stat-val">$${(data.per_person_usd || 0).toLocaleString()}</div>
+    </div>
+    <div class="budget-stat">
+      <div class="budget-stat-label">Daily Budget</div>
+      <div class="budget-stat-val">$${(data.daily_spending_budget_usd || 0).toLocaleString()}</div>
+      <div class="budget-stat-sub">per person/day</div>
+    </div>
+  </div>`;
+
+  let breakdownHtml = '<div class="budget-breakdown">';
+  const cats = [
+    ['flights', '✈ Flights'], ['accommodation', '🏨 Accommodation'],
+    ['food', '🍽 Food'], ['local_transport', '🚗 Transport'],
+    ['activities_and_entrance_fees', '🎡 Activities'], ['shopping_and_souvenirs', '🛍 Shopping'],
+    ['emergency_fund_10pct', '🛡 Emergency (10%)'],
+  ];
+  cats.forEach(([key, label]) => {
+    if (b[key] !== undefined) {
+      breakdownHtml += `<div class="budget-row"><span>${label}</span><span>$${b[key].toLocaleString()}</span></div>`;
+    }
+  });
+  breakdownHtml += `<div class="budget-row"><span><strong>TOTAL</strong></span><span><strong>$${total.toLocaleString()}</strong></span></div>`;
+  breakdownHtml += '</div>';
+
+  // Bar chart
+  let barHtml = '<div class="budget-bar-wrap">';
+  cats.forEach(([key, label]) => {
+    if (b[key] && total) {
+      const pct = Math.round((b[key] / total) * 100);
+      barHtml += `<div class="budget-bar-row">
+        <div class="budget-bar-label">${label}</div>
+        <div class="budget-bar"><div class="budget-bar-fill" style="width:${pct}%"></div></div>
+        <div style="width:35px;text-align:right;font-size:11px;color:var(--text3)">${pct}%</div>
+      </div>`;
+    }
+  });
+  barHtml += '</div>';
+
+  let tipsHtml = '';
+  if (data.money_saving_tips && data.money_saving_tips.length) {
+    tipsHtml = data.money_saving_tips.slice(0, 4).map(t =>
+      `<div class="budget-tip">💡 ${t}</div>`
+    ).join('');
+  }
+
+  makePanel('Budget Breakdown', '💰', summaryHtml + breakdownHtml + barHtml + tipsHtml);
+}
+
+function renderFood(data) {
+  if (!data || typeof data !== 'object') return;
+  const tiers = [
+    ['street_food', '🛒 Street Food', '#f59e0b'],
+    ['budget', '💵 Budget'],
+    ['mid_range', '🍽 Mid-Range'],
+    ['fine_dining', '⭐ Fine Dining'],
+  ];
+  let html = '';
+  if (data.notes) html += `<div style="font-size:13px;color:var(--text2);margin-bottom:12px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm)">${data.notes}</div>`;
+
+  let hasContent = false;
+  tiers.forEach(([key, label, color]) => {
+    const items = data[key];
+    if (!items || !items.length) return;
+    hasContent = true;
+    html += `<div class="food-tier-title" style="color:${color||'var(--accent2)'}">${label}</div>`;
+    html += '<div class="food-cards">';
+    items.forEach(item => {
+      html += `<div class="food-card">
+        <div class="food-name">${item.name}</div>
+        <div class="food-cuisine">${item.cuisine}</div>
+        <div class="food-specialty">${item.specialty || ''}</div>
+        <div class="food-cost">$${item.avg_cost_per_person_usd}/person</div>
+        <div class="food-hours">${item.open} – ${item.close}</div>
+        ${item.must_try && item.must_try.length ? `<div class="food-must-try">🍴 ${item.must_try.slice(0,2).join(' · ')}</div>` : ''}
+        ${item.reservation_required ? '<div class="reservation-badge">Reservation Needed</div>' : ''}
+        ${item.notes ? `<div style="font-size:11px;color:var(--text3);margin-top:4px">${item.notes.slice(0,70)}…</div>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  if (!hasContent) return;
+  makePanel('Food & Dining', '🍽', html);
+}
+
+function renderTransport(data) {
+  if (!Array.isArray(data) || !data.length) return;
+  let html = '<table class="transport-table"><thead><tr><th>Mode</th><th>Cost (Total)</th><th>Per Person</th><th>Comfort</th><th>Flexibility</th><th>Eco</th><th>Best For</th></tr></thead><tbody>';
+  data.forEach(m => {
+    const stars = n => '★'.repeat(n) + '☆'.repeat(5-n);
+    html += `<tr>
+      <td><strong>${m.mode}</strong>${m.license_required ? '<br><span style="font-size:10px;color:var(--warning)">License needed</span>' : ''}</td>
+      <td>$${m.total_cost_usd}</td>
+      <td>$${m.cost_per_person_usd}</td>
+      <td class="stars">${stars(m.comfort)}</td>
+      <td class="stars">${stars(m.flexibility)}</td>
+      <td class="stars">${stars(m.eco_rating)}</td>
+      <td style="font-size:11px;color:var(--text2)">${m.best_for || ''}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  if (data[0] && data[0].notes) {
+    html += `<div class="budget-tip" style="margin-top:12px">💡 ${data[0].notes}</div>`;
+  }
+  makePanel('Transport Comparison', '🚗', html);
+}
+
+// ─────────────────────────────────────────────
+// Init
+// ─────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  loadProviders();
+});
+</script>
+</body>
+</html>
