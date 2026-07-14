@@ -402,7 +402,7 @@
       <div class="pref-row">
         <div class="pref-label">Provider <span class="pref-val" style="color:var(--success);font-size:11px">plug in any LLM</span></div>
         <select class="pref-input" id="pref-provider" onchange="onProviderChange(this.value)">
-          <option value="gemini">Gemini 1.5 Flash — Free tier ✓</option>
+          <option value="gemini">Gemini 2.5 Flash — Free ✓ (best price-performance)</option>
         </select>
       </div>
       <div id="provider-note" style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5">
@@ -414,9 +414,9 @@
     <div class="pref-section">
       <div class="pref-section-title">✈ Trip Basics</div>
       <div class="pref-row">
-        <div class="pref-label">Total Budget <span class="pref-val" id="budget-label">$3,000</span></div>
-        <input type="range" id="pref-budget" min="500" max="15000" step="100" value="3000" oninput="onBudgetChange(this.value)">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:3px"><span>$500</span><span>$15,000</span></div>
+        <div class="pref-label">Total Budget <span class="pref-val" id="budget-label">₹2,50,000</span></div>
+        <input type="range" id="pref-budget" min="50000" max="1200000" step="5000" value="250000" oninput="onBudgetChange(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:3px"><span>₹50K</span><span>₹12L</span></div>
       </div>
       <div class="pref-row">
         <div class="pref-label">Duration <span class="pref-val" id="duration-label">7 days</span></div>
@@ -548,7 +548,7 @@
         <p>Powered by LangChain — works with Gemini (free), Groq, OpenAI, Anthropic, or any LLM. Configure your preferences on the left, or just start chatting!</p>
         <div class="welcome-prompts">
           <div class="prompt-chip" onclick="usePrompt(this)">Plan a beach vacation for 2</div>
-          <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on $2000?</div>
+          <div class="prompt-chip" onclick="usePrompt(this)">Where should I go in Europe for 7 days on ₹1,70,000?</div>
           <div class="prompt-chip" onclick="usePrompt(this)">Best destinations for solo travel in Asia</div>
           <div class="prompt-chip" onclick="usePrompt(this)">Plan Bali trip with full itinerary and budget</div>
           <div class="prompt-chip" onclick="usePrompt(this)">Compare scooter vs taxi in Bangkok for 5 days</div>
@@ -603,12 +603,12 @@ function adjustNumber(inputId, delta, min, max, labelId, suffix) {
 }
 function onBudgetChange(val) {
   const n = parseInt(val);
-  document.getElementById('budget-label').textContent = '$' + n.toLocaleString();
+  document.getElementById('budget-label').textContent = '₹' + n.toLocaleString('en-IN');
 }
 function onProviderChange(val) {
   document.getElementById('provider-badge').textContent = '🤖 ' + val;
   const notes = {
-    gemini:    'Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
+    gemini:    'Free tier — 1,500 req/day. Get key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
     groq:      '⚠ Groq has no free tier — requires prepaid balance at console.groq.com',
     openai:    'Paid API — set OPENAI_API_KEY in your .env',
     anthropic: 'Paid API — set ANTHROPIC_API_KEY in your .env',
@@ -628,7 +628,9 @@ function getRadioVal(groupId) {
 
 function collectPreferences() {
   return {
-    budget_usd: parseInt(document.getElementById('pref-budget').value),
+    budget_usd: Math.round(parseInt(document.getElementById('pref-budget').value) / 84),
+    budget_inr: parseInt(document.getElementById('pref-budget').value),
+    currency: "INR",
     trip_duration_days: parseInt(document.getElementById('pref-duration').value),
     group_size: parseInt(document.getElementById('pref-group').value),
     origin_city: document.getElementById('pref-origin').value || 'New York',
@@ -651,13 +653,13 @@ async function loadProviders() {
     const sel = document.getElementById('pref-provider');
     sel.innerHTML = '';
     const labels = {
-      gemini:    'Gemini 1.5 Flash — Free tier ✓',
-      groq:      'Groq Llama 3.1 70B — Pay-as-you-go',
+      gemini:    'Gemini 2.5 Flash — Free ✓ (best price-performance)',
+      groq:      'Groq Llama 3.1 — Pay-as-you-go ⚠',
       openai:    'GPT-4o Mini — Paid',
       anthropic: 'Claude 3.5 Haiku — Paid',
     };
     const notes = {
-      gemini:    'Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
+      gemini:    'Free tier — 1,500 req/day. Get key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent2)">aistudio.google.com</a>',
       groq:      '⚠ Groq has no free tier — requires prepaid balance',
       openai:    'Paid API — usage billed per token',
       anthropic: 'Paid API — usage billed per token',
@@ -688,7 +690,7 @@ function usePrompt(el) {
 function sendPreferenceUpdate() {
   const prefs = collectPreferences();
   const parts = [];
-  parts.push(`Budget: $${prefs.budget_usd}`);
+  parts.push(`Budget: ₹${parseInt(document.getElementById('pref-budget').value).toLocaleString('en-IN')}`);
   parts.push(`Duration: ${prefs.trip_duration_days} days`);
   parts.push(`Group: ${prefs.group_size} people`);
   parts.push(`Season: ${prefs.season}`);
@@ -1032,19 +1034,21 @@ function renderBudget(data) {
   const b = data.breakdown || {};
   const total = data.total_usd || 0;
 
+  const fmt = (n) => data.currency === "INR" ? "₹" + Math.round(n).toLocaleString("en-IN") : "$" + n.toLocaleString();
+
   let summaryHtml = `<div class="budget-summary">
     <div class="budget-stat">
       <div class="budget-stat-label">Total Trip</div>
-      <div class="budget-stat-val">$${(data.total_usd || 0).toLocaleString()}</div>
+      <div class="budget-stat-val">${data.currency === "INR" ? fmt(data.total_inr || data.total_usd * 84 || 0) : fmt(data.total_usd || 0)}</div>
       <div class="budget-stat-sub">${data.num_people || 2} people</div>
     </div>
     <div class="budget-stat">
       <div class="budget-stat-label">Per Person</div>
-      <div class="budget-stat-val">$${(data.per_person_usd || 0).toLocaleString()}</div>
+      <div class="budget-stat-val">${data.currency === "INR" ? fmt(data.per_person_inr || data.per_person_usd * 84 || 0) : fmt(data.per_person_usd || 0)}</div>
     </div>
     <div class="budget-stat">
       <div class="budget-stat-label">Daily Budget</div>
-      <div class="budget-stat-val">$${(data.daily_spending_budget_usd || 0).toLocaleString()}</div>
+      <div class="budget-stat-val">${data.currency === "INR" ? fmt(data.daily_budget_inr || data.daily_spending_budget_usd * 84 || 0) : fmt(data.daily_spending_budget_usd || 0)}</div>
       <div class="budget-stat-sub">per person/day</div>
     </div>
   </div>`;
@@ -1058,10 +1062,12 @@ function renderBudget(data) {
   ];
   cats.forEach(([key, label]) => {
     if (b[key] !== undefined) {
-      breakdownHtml += `<div class="budget-row"><span>${label}</span><span>$${b[key].toLocaleString()}</span></div>`;
+      const val = data.currency === "INR" ? fmt(b[key] * 84) : fmt(b[key]);
+      breakdownHtml += `<div class="budget-row"><span>${label}</span><span>${val}</span></div>`;
     }
   });
-  breakdownHtml += `<div class="budget-row"><span><strong>TOTAL</strong></span><span><strong>$${total.toLocaleString()}</strong></span></div>`;
+  const totalVal = data.currency === "INR" ? fmt(total * 84) : fmt(total);
+  breakdownHtml += `<div class="budget-row"><span><strong>TOTAL</strong></span><span><strong>${totalVal}</strong></span></div>`;
   breakdownHtml += '</div>';
 
   // Bar chart

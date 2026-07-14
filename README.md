@@ -43,7 +43,7 @@ An AI-powered vacation planning assistant built on a **modular LLM architecture*
 
 | Layer | Technology | Cost |
 |---|---|---|
-| LLM (default) | [Google Gemini 1.5 Flash](https://aistudio.google.com/) | **Free** — 1,500 req/day, no credit card |
+| LLM (default) | [Google Gemini 2.5 Flash](https://aistudio.google.com/) | Gemini 2.5 Flash — best price-performance for agentic tasks |
 | LLM (optional) | Groq LLaMA 3.1 70B | Pay-as-you-go — **no free tier**, requires prepaid balance |
 | LLM (optional) | OpenAI GPT-4o Mini | Paid |
 | LLM (optional) | Anthropic Claude 3.5 Haiku | Paid |
@@ -150,7 +150,7 @@ GOOGLE_API_KEY=your_gemini_key_here
 ### 5. Start the Server
 
 ```bash
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --port 4949
 ```
 
 You should see:
@@ -158,15 +158,15 @@ You should see:
 ```
 INFO:     Started server process
 INFO:     Waiting for application startup.
-✓ Vacation Planner started | Available providers: ['groq']
+✓ Vacation Planner started | Available providers: ['gemini'] | Default: gemini
 ✓ 9 tools loaded
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:8000
+INFO:     Uvicorn running on http://127.0.0.1:4949
 ```
 
 ### 6. Open the App
 
-Navigate to [http://localhost:8000](http://localhost:8000) in your browser. The dark-themed chat UI will load automatically.
+Navigate to [http://localhost:4949](http://localhost:4949) in your browser. The dark-themed chat UI will load automatically.
 
 Try a prompt like:
 
@@ -178,7 +178,7 @@ Try a prompt like:
 
 | Variable | Provider | Cost | Description |
 |---|---|---|---|
-| `GOOGLE_API_KEY` | Gemini 1.5 Flash | **Free** (1,500 req/day) | Get at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — no credit card needed. **Recommended default.** |
+| `GOOGLE_API_KEY` | Gemini 2.5 Flash | **Free** (1,500 req/day) | Get at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — no credit card needed. **Recommended default.** |
 | `GROQ_API_KEY` | Groq LLaMA 3.1 70B | Pay-as-you-go | ⚠ **No free tier** — requires a prepaid balance at [console.groq.com](https://console.groq.com) |
 | `OPENAI_API_KEY` | GPT-4o Mini | Paid | [platform.openai.com](https://platform.openai.com) |
 | `ANTHROPIC_API_KEY` | Claude 3.5 Haiku | Paid | [console.anthropic.com](https://console.anthropic.com) |

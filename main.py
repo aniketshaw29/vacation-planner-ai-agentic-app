@@ -25,6 +25,7 @@ class UserPreferences(BaseModel):
     dietary_restrictions: str = "none"
     transport_modes: list[str] = ["flight", "train", "bus", "scooter"]
     origin_city: str = "New York"
+    currency: str = "INR"
 
     @property
     def budget_per_person(self) -> int:

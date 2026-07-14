@@ -1,46 +1,34 @@
 import json
 from typing import AsyncGenerator
 
-from langchain.agents import create_tool_calling_agent, AgentExecutor
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage
+from langgraph.prebuilt import create_react_agent
 
 from agent.prompts import SYSTEM_PROMPT_TEMPLATE
 from agent.memory import session_memory
 from agent.providers import get_llm
 
-# Lazy import to avoid circular deps — tools imported on first call
-_executor_cache: dict[str, AgentExecutor] = {}
+_agent_cache: dict[str, object] = {}
 
 
-def build_agent_executor(provider: str = "gemini") -> AgentExecutor:
-    """Build (or return cached) AgentExecutor for the given provider."""
-    if provider in _executor_cache:
-        return _executor_cache[provider]
+def build_agent_executor(provider: str = "gemini"):
+    """Build (or return cached) LangGraph react agent for the given provider."""
+    if provider in _agent_cache:
+        return _agent_cache[provider]
 
     from tools import ALL_TOOLS
 
     llm = get_llm(provider)
 
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", SYSTEM_PROMPT_TEMPLATE),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("human", "{input}\n\n<user_preferences>\n{preferences_json}\n</user_preferences>"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ])
-
-    agent = create_tool_calling_agent(llm, ALL_TOOLS, prompt)
-    executor = AgentExecutor(
-        agent=agent,
+    # create_react_agent accepts a plain string as the system prompt
+    agent = create_react_agent(
+        model=llm,
         tools=ALL_TOOLS,
-        verbose=False,
-        max_iterations=10,
-        max_execution_time=120,
-        handle_parsing_errors=True,
-        return_intermediate_steps=False,
+        prompt=SYSTEM_PROMPT_TEMPLATE,
     )
 
-    _executor_cache[provider] = executor
-    return executor
+    _agent_cache[provider] = agent
+    return agent
 
 
 async def run_agent_stream(
@@ -59,24 +47,27 @@ async def run_agent_stream(
       {"type": "error",      "message": "..."}
       {"type": "done"}
     """
-    executor = build_agent_executor(provider)
+    agent = build_agent_executor(provider)
     history = session_memory.get_history(session_id)
 
-    inputs = {
-        "input": message,
-        "chat_history": history,
-        "preferences_json": json.dumps(preferences, ensure_ascii=False),
-    }
+    # Inject current preferences into the human turn
+    human_content = (
+        f"{message}\n\n"
+        f"<user_preferences>\n{json.dumps(preferences, ensure_ascii=False)}\n</user_preferences>"
+    )
 
+    messages = history + [HumanMessage(content=human_content)]
     full_response = []
 
     try:
-        async for event in executor.astream_events(inputs, version="v2"):
+        async for event in agent.astream_events(
+            {"messages": messages},
+            version="v2",
+        ):
             kind = event.get("event", "")
 
             if kind == "on_chat_model_stream":
                 chunk = event["data"]["chunk"]
-                # Content can be str or list of dicts depending on the model
                 if isinstance(chunk.content, str) and chunk.content:
                     full_response.append(chunk.content)
                     yield f"data: {json.dumps({'type': 'token', 'content': chunk.content})}\n\n"
@@ -100,7 +91,6 @@ async def run_agent_stream(
     except Exception as exc:
         yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
     finally:
-        # Persist conversation turn to memory
         if full_response:
             session_memory.add_turn(session_id, message, "".join(full_response))
         yield f"data: {json.dumps({'type': 'done'})}\n\n"

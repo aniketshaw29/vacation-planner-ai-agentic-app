@@ -9,9 +9,14 @@ def get_llm(provider: str = "gemini"):
     provider = provider.lower()
 
     if provider == "gemini":
+        # Available stable Gemini model options you can switch to:
+        #   gemini-2.5-flash-lite  — fastest, cheapest
+        #   gemini-2.5-flash       — default, best price-performance
+        #   gemini-2.5-pro         — most capable, higher quota usage
+        #   gemini-3.5-flash       — best for agentic tasks, check quota
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model="gemini-1.5-flash",
+            model="gemini-2.5-flash",
             temperature=0,
             streaming=True,
             google_api_key=os.environ["GOOGLE_API_KEY"],
