@@ -656,7 +656,7 @@ function renderHistoryList() {
   }
   list.innerHTML = sessions.map(s => {
     const date = new Date(s.savedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-    const count = s.messages.filter(m => m.role === 'user').length;
+    const count = (s.messages || []).filter(m => m.role === 'user').length;
     const isActive = s.id === state.sessionId;
     return `<div class="history-item${isActive ? ' active' : ''}" onclick="loadSession('${s.id}')">
       <div class="hi-title">${escHtml(s.title)}</div>
@@ -679,9 +679,8 @@ function loadSession(sessionId) {
   // Restore chat UI
   const msgs = document.getElementById('messages');
   msgs.innerHTML = '';
-  document.getElementById('panels').innerHTML = '';
-  const welcome = document.getElementById('welcome');
-  if (welcome) welcome.remove();
+  document.getElementById('panels').innerHTML;
+  // #welcome is already gone after innerHTML = ''; no separate removal needed
 
   state.chatLog.forEach(m => {
     const bubble = addMessage(m.role, '');
@@ -845,9 +844,10 @@ function clearChat() {
     </div>
   </div>`;
   document.getElementById('panels').innerHTML = '';
+  const oldSessionId = state.sessionId;
   state.sessionId = 'session-' + Math.random().toString(36).slice(2);
   state.chatLog = [];
-  fetch(`/api/session/${state.sessionId}`, { method: 'DELETE' }).catch(() => {});
+  fetch(`/api/session/${oldSessionId}`, { method: 'DELETE' }).catch(() => {});
   renderHistoryList();
 }
 function autoResize(el) {
